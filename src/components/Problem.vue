@@ -4,10 +4,12 @@
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
     
-    <input v-model="uinput1" placeholder="sol 1" type="number">
-    <input v-model="uinput2" placeholder="Sol 2" type="number">
-    <button class="submit-button" v-on:click="submitMethod">Submit</button>
-    <h1 v-show="correct">Correct!</h1>
+    <div class="submit-block">
+        <input v-model="uinput1" placeholder="sol 1" type="number" style=margin:10px>
+        <input v-model="uinput2" placeholder="sol 2" type="number" style=margin:10px>
+        <button class="submit-button" v-on:click="submitMethod">Submit</button>
+        <h1 v-show="correct">Correct!</h1>
+    </div>
     
 
     <Hint v-if="displayHint1" v-bind:description='hintContent1' />
@@ -50,7 +52,8 @@ export default {
                 hintContent1: null,
                 hintContent2: null,
                 hintContent3: null,
-                hintContent4: null
+                hintContent4: null,
+                numHintsShown:0,
 
             }
     },
@@ -92,7 +95,10 @@ export default {
             }
             
             if (this.correct) {
-                this.displayHints(true)
+                for (let c=0; c<4; c++){
+                    this.displayHints(true) //displays all the hints when correct
+                }
+                
             }
 
       },
@@ -108,11 +114,20 @@ export default {
           this.hintContent3 = '$$(x + ' + sol1 * -1 + ')' + '(x + ' + sol2 * -1 + ')$$'
           this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'
       },
-      displayHints(show) {
-            this.displayHint1 = show;
-            this.displayHint2 = show;
-            this.displayHint3 = show;
-            this.displayHint4 = show;
+      displayHints(show) { //displays a hit based on how many hints are already shown (displays the next hint)
+            if (this.numHintsShown==0){
+                this.displayHint1 = show;
+            } else if (this.numHintsShown==1){
+                this.displayHint2 = show;
+            } else if (this.numHintsShown==2){
+                this.displayHint3 = show;
+            } else {
+                this.displayHint4 = show;
+            }
+            this.numHintsShown+=1;
+            
+            
+            
       }
     }
 }
@@ -120,7 +135,28 @@ export default {
 
 <style scoped>
 .problem-button {
-    background-color: blue;
+    position:relative;
+    background-color: rgb(170, 228, 165);
+    padding:10px;
+    margin:20px;
     text-emphasis-color: white;
+    border-radius: 10px;
 }
+
+.problem-button:hover {
+    background-color: rgb(149, 233, 141);
+    cursor: pointer;
+}
+
+.formula-style{
+    font:bold;
+    font-size: 12px;
+}
+.submit-block {
+    margin: 10px, 10px;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+
 </style>
