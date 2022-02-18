@@ -6,7 +6,6 @@
 
       <br>
       <br>
-
       <vue-mathjax :formula="description"></vue-mathjax>
     </div>
   </div>

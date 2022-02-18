@@ -1,6 +1,10 @@
+
 <template>
     <div class="probem">
         <button v-on:click="createProblem" class="problem-button">Generate Problem</button>
+        <br>
+        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button">Display Hint ({{numHint}}/4)</button>
+        
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
     
@@ -10,8 +14,9 @@
         <button class="submit-button" v-on:click="submitMethod">Submit</button>
         <h1 v-show="correct">Correct!</h1>
     </div>
-    
 
+    
+    
     <Hint v-if="displayHint1" v-bind:description='hintContent1' />
     
     <Hint v-if="displayHint2" v-bind:description='hintContent2'/>
@@ -53,7 +58,8 @@ export default {
                 hintContent2: null,
                 hintContent3: null,
                 hintContent4: null,
-                numHintsShown:0,
+                displayHintButton: null,
+                numHint: 1
 
             }
     },
@@ -71,9 +77,9 @@ export default {
             this.formula = this.problem
 
             this.correct = false;
-            this.displayHints(false)            
-
-            
+            this.displayHintButton = true;
+            this.numHint = 1;
+            this.displayAllHints(false)            
         },
         makeform(sol1, sol2) {
             var bVal = sol1 + sol2;
@@ -95,10 +101,7 @@ export default {
             }
             
             if (this.correct) {
-                for (let c=0; c<4; c++){
-                    this.displayHints(true) //displays all the hints when correct
-                }
-                
+                this.displayAllHints(true)
             }
 
       },
@@ -114,20 +117,32 @@ export default {
           this.hintContent3 = '$$(x + ' + sol1 * -1 + ')' + '(x + ' + sol2 * -1 + ')$$'
           this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'
       },
-      displayHints(show) { //displays a hit based on how many hints are already shown (displays the next hint)
-            if (this.numHintsShown==0){
-                this.displayHint1 = show;
-            } else if (this.numHintsShown==1){
-                this.displayHint2 = show;
-            } else if (this.numHintsShown==2){
-                this.displayHint3 = show;
-            } else {
-                this.displayHint4 = show;
-            }
-            this.numHintsShown+=1;
-            
-            
-            
+
+      displayAllHints(show) {
+            this.displayHint1 = show;
+            this.displayHint2 = show;
+            this.displayHint3 = show;
+            this.displayHint4 = show;
+      },
+      displayHints() {
+          switch (this.numHint) {
+                case 1:
+                    this.displayHint1 = true;
+                    this.numHint++;
+                    break;
+                case 2:
+                    this.displayHint2 = true;
+                    this.numHint++;
+                    break;
+                case 3:
+                    this.displayHint3 = true;
+                    this.numHint++;
+                    break;
+                case 4:
+                    this.displayHint4 = true;
+                    break;
+          }
+          
       }
     }
 }
