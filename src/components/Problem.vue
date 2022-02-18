@@ -1,15 +1,26 @@
+
 <template>
     <div class="probem">
         <button v-on:click="createProblem" class="problem-button">Generate Problem</button>
+        <br>
+        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button">Display Hint ({{numHint}}/4)</button>
+        
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
-    
-    <input v-model="uinput1" placeholder="sol 1" type="number">
-    <input v-model="uinput2" placeholder="Sol 2" type="number">
-    <button class="submit-button" v-on:click="submitMethod">Submit</button>
+    <div class="problem-block">
+        <div>
+        <input v-model="uinput1" placeholder="Solution 1" type="number">
+        </div>
+        <div>
+        <input v-model="uinput2" placeholder="Solution 2" type="number">
+        </div>
+        <div>
+        <button class="submit-button" v-on:click="submitMethod">Submit</button>
+        </div>
+    </div>
     <h1 v-show="correct">Correct!</h1>
     
-
+    
     <Hint v-if="displayHint1" v-bind:description='hintContent1' />
     
     <Hint v-if="displayHint2" v-bind:description='hintContent2'/>
@@ -50,7 +61,9 @@ export default {
                 hintContent1: null,
                 hintContent2: null,
                 hintContent3: null,
-                hintContent4: null
+                hintContent4: null,
+                displayHintButton: null,
+                numHint: 1
 
             }
     },
@@ -68,9 +81,9 @@ export default {
             this.formula = this.problem
 
             this.correct = false;
-            this.displayHints(false)            
-
-            
+            this.displayHintButton = true;
+            this.numHint = 1;
+            this.displayAllHints(false)            
         },
         makeform(sol1, sol2) {
             var bVal = sol1 + sol2;
@@ -92,7 +105,7 @@ export default {
             }
             
             if (this.correct) {
-                this.displayHints(true)
+                this.displayAllHints(true)
             }
 
       },
@@ -108,11 +121,31 @@ export default {
           this.hintContent3 = '$$(x + ' + sol1 * -1 + ')' + '(x + ' + sol2 * -1 + ')$$'
           this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'
       },
-      displayHints(show) {
+      displayAllHints(show) {
             this.displayHint1 = show;
             this.displayHint2 = show;
             this.displayHint3 = show;
             this.displayHint4 = show;
+      },
+      displayHints() {
+          switch (this.numHint) {
+                case 1:
+                    this.displayHint1 = true;
+                    this.numHint++;
+                    break;
+                case 2:
+                    this.displayHint2 = true;
+                    this.numHint++;
+                    break;
+                case 3:
+                    this.displayHint3 = true;
+                    this.numHint++;
+                    break;
+                case 4:
+                    this.displayHint4 = true;
+                    break;
+          }
+          
       }
     }
 }
@@ -122,5 +155,9 @@ export default {
 .problem-button {
     background-color: blue;
     text-emphasis-color: white;
+}
+
+.problem-block {
+    display: inline-flex;
 }
 </style>
