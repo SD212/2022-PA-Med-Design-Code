@@ -7,18 +7,14 @@
         
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
-    <div class="problem-block">
-        <div>
-        <input v-model="uinput1" placeholder="Solution 1" type="number">
-        </div>
-        <div>
-        <input v-model="uinput2" placeholder="Solution 2" type="number">
-        </div>
-        <div>
+    
+    <div class="submit-block">
+        <input v-model="uinput1" placeholder="sol 1" type="number" style=margin:10px>
+        <input v-model="uinput2" placeholder="sol 2" type="number" style=margin:10px>
         <button class="submit-button" v-on:click="submitMethod">Submit</button>
-        </div>
+        <h1 v-show="correct">Correct!</h1>
     </div>
-    <h1 v-show="correct">Correct!</h1>
+
     
     
     <Hint v-if="displayHint1" v-bind:description='hintContent1' />
@@ -121,6 +117,7 @@ export default {
           this.hintContent3 = '$$(x + ' + sol1 * -1 + ')' + '(x + ' + sol2 * -1 + ')$$'
           this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'
       },
+
       displayAllHints(show) {
             this.displayHint1 = show;
             this.displayHint2 = show;
@@ -153,11 +150,28 @@ export default {
 
 <style scoped>
 .problem-button {
-    background-color: blue;
+    position:relative;
+    background-color: rgb(170, 228, 165);
+    padding:10px;
+    margin:20px;
     text-emphasis-color: white;
+    border-radius: 10px;
 }
 
-.problem-block {
-    display: inline-flex;
+.problem-button:hover {
+    background-color: rgb(149, 233, 141);
+    cursor: pointer;
 }
+
+.formula-style{
+    font:bold;
+    font-size: 12px;
+}
+.submit-block {
+    margin: 10px, 10px;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+
 </style>
