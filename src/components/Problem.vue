@@ -14,7 +14,6 @@
         <button class="submit-button" v-on:click="submitMethod">Submit</button>
         <h1 v-show="correct">Correct!</h1>
     </div>
-
     
     
     <Hint v-if="displayHint1" v-bind:description='hintContent1' />
@@ -117,7 +116,6 @@ export default {
           this.hintContent3 = '$$(x + ' + sol1 * -1 + ')' + '(x + ' + sol2 * -1 + ')$$'
           this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'
       },
-
       displayAllHints(show) {
             this.displayHint1 = show;
             this.displayHint2 = show;
