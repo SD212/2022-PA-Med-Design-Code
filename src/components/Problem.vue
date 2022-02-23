@@ -3,16 +3,17 @@
     <div class="probem">
         <button v-on:click="createProblem" class="problem-button">Generate Problem</button>
         <br>
-        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button">Display Hint ({{numHint}}/4)</button>
+        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button>
         
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
     
-    <div class="submit-block">
+    <div class="submit-block" >
         <input v-model="uinput1" placeholder="sol 1" type="number" style=margin:10px>
         <input v-model="uinput2" placeholder="sol 2" type="number" style=margin:10px>
-        <button class="submit-button" v-on:click="submitMethod">Submit</button>
-        <h1 v-show="correct">Correct!</h1>
+        <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
+        <h1 v-show="correct" class="correct-banner">Correct!</h1>
+        <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
     </div>
     
     
@@ -45,6 +46,7 @@ export default {
                 uinput1: null,
                 uinput2: null,
                 correct: false,
+                incorrect: false,
                 bVal: 0,
                 cVal: 0,
                 sol1: 0,
@@ -58,7 +60,8 @@ export default {
                 hintContent3: null,
                 hintContent4: null,
                 displayHintButton: null,
-                numHint: 1
+                numHint: 1,
+                isDisabled: false,
 
             }
     },
@@ -76,9 +79,11 @@ export default {
             this.formula = this.problem
 
             this.correct = false;
+            this.incorrect = false;
             this.displayHintButton = true;
             this.numHint = 1;
-            this.displayAllHints(false)            
+            this.displayAllHints(false)
+            this.isDisabled = false;            
         },
         makeform(sol1, sol2) {
             var bVal = sol1 + sol2;
@@ -93,15 +98,20 @@ export default {
         submitMethod() {
             if (this.uinput1 == this.sol1 && this.uinput2 == this.sol2) {
                 this.correct = true;
+                this.incorrect=false;
+                this.isDisabled = true;
             } else if (this.uinput1 == this.sol2 && this.uinput2 == this.sol1) {
                 this.correct = true;
+                this.incorrect=false;
+                this.isDisabled = true;
             } else {
-                alert("wrong")
+                this.incorrect=true;
             }
             
             if (this.correct) {
                 this.displayAllHints(true)
-            }
+            } 
+
 
       },
       makeHints() {
@@ -159,6 +169,25 @@ export default {
 .problem-button:hover {
     background-color: rgb(149, 233, 141);
     cursor: pointer;
+}
+
+.correct-banner{
+    background-color: rgb(149, 233, 141);
+    padding: 10px;
+    border-radius: 10px;
+    border: 5px solid black;
+    animation: correct-banner-animation 1s; 
+}
+.incorrect-banner{
+    background-color: rgb(216, 43, 0);
+    padding: 10px;
+    border-radius: 10px;
+    border: 5px solid black;
+    animation: correct-banner-animation 1s;
+}
+@keyframes correct-banner-animation {
+  0%    { opacity: 0; }
+  100%  { opacity: 1; }
 }
 
 .formula-style{
