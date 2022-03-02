@@ -47,7 +47,37 @@ function getRandCoeffIndex(){ //gets a random coefficient for pi
       isNeg = true;
       solution = -1 * solution; //removes the negative for now so the next block is universal
     }
-    if (solution.toPrecision(2) == 0.71){ //converts the irrational decimals to string roots or rational numbers
+
+    switch (solution.toPrecision(3)) {
+      case 0.71:
+        solution = "sqrt2/2";
+        break;
+      case 1.73:
+        solution = "sqrt3";
+        break;
+      case 0.577:
+        solution = "sqrt3/3";
+        break;
+      case 0.866:
+        solution = "sqrt3/2";
+        break;
+      case 0.500:
+        solution = "1/2";
+        break;
+      case 1.00:
+        solution = "1";
+        break;
+      case 2.45:
+        solution = "0";
+        break;
+      case 544:
+        solution = "undefined"
+        break;
+      default:
+        solution = "error"
+        break;
+    }
+    /*if (solution.toPrecision(2) == 0.71){ //converts the irrational decimals to string roots or rational numbers
         solution = "sqrt2/2";
     } else if (solution.toPrecision(3) == 1.73){
         solution = "sqrt3";
@@ -63,7 +93,7 @@ function getRandCoeffIndex(){ //gets a random coefficient for pi
         solution = "0";
     } else if (solution.toPrecision(3) == 544){
         solution = "undefined";
-    }
+    }*/
     if (isNeg){ 
       solution = "-" + solution; //adds the negative back
     }

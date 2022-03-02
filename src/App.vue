@@ -2,16 +2,20 @@
   <div id="app">
  
     <Problem/>
+    <TrigProblem />
+    
   </div>
 </template>
 
 <script>
 import Problem from './components/Problem.vue'
+import TrigProblem from './components/TrigProblem.vue'
 
 export default {
   name: 'App',
   components: {
-    Problem
+    Problem,
+    TrigProblem
   }
 }
 </script>
