@@ -3,9 +3,7 @@
   
     <Menu/>
     <Problem v-if="factoring" />
-    <div v-show="trig">
-      Trig Problem
-    </div>
+    <TrigProblem v-if="trig" />
 
   </div>
 </template>
