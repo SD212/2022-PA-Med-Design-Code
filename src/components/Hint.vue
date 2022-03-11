@@ -50,6 +50,13 @@ export default {
   width: 100%;
 }
 
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 550px;
+}
+
 .hint-description {
   display: inline;
   text-align: center;
