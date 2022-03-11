@@ -8,22 +8,23 @@
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
     
-    <div class="submit-block" >
-        <input v-model="uinput1" placeholder="sol 1" type="number" style=margin:10px>
-        <input v-model="uinput2" placeholder="sol 2" type="number" style=margin:10px>
+    <div v-show="displaySubmit" class="submit-block">
+        <input v-model="uinput1" placeholder="Solution 1" type="number" style=margin:10px>
+        <input v-model="uinput2" placeholder="Solution 2" type="number" style=margin:10px>
         <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
         <h1 v-show="correct" class="correct-banner">Correct!</h1>
         <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
+        
     </div>
     
     
-    <Hint v-if="displayHint1" v-bind:description='hintContent1' />
+    <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true" />
     
-    <Hint v-if="displayHint2" v-bind:description='hintContent2'/>
+    <Hint v-if="displayHint2" v-bind:description='hintContent2' v-bind:text="true"/>
     
-    <Hint v-if="displayHint3" v-bind:description='hintContent3'/>
+    <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true"/>
     
-    <Hint v-if="displayHint4" v-bind:description='hintContent4'/>
+    <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true"/>
 
 
     </div>
@@ -60,6 +61,7 @@ export default {
                 hintContent3: null,
                 hintContent4: null,
                 displayHintButton: null,
+                displaySubmit: false,
                 numHint: 1,
                 isDisabled: false,
 
@@ -81,6 +83,7 @@ export default {
             this.correct = false;
             this.incorrect = false;
             this.displayHintButton = true;
+            this.displaySubmit = true;
             this.numHint = 1;
             this.displayAllHints(false)
             this.isDisabled = false;            

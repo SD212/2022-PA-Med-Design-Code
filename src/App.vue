@@ -1,24 +1,27 @@
 <template>
   <div id="app">
-    
+  
     <Menu/>
     <Problem v-if="factoring" />
     <div v-show="trig">
       Trig Problem
     </div>
-      
+
   </div>
 </template>
 
 <script>
 import Problem from './components/Problem.vue'
 import Menu from './components/Menu.vue'
+import TrigProblem from './components/TrigProblem.vue'
+
 
 export default {
   name: 'App',
   components: {
     Problem,
     Menu,
+    TrigProblem
   },
   data() {
     return {
