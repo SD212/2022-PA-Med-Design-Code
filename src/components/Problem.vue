@@ -1,29 +1,30 @@
 
 <template>
     <div class="probem">
-        <button v-on:click="createProblem" class="problem-button">Generate Problem</button>
+        <button v-on:click="createProblem" class="problem-button">Generate Factoring Problem</button>
         <br>
         <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button>
         
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
     
-    <div class="submit-block" >
-        <input v-model="uinput1" placeholder="sol 1" type="number" style=margin:10px>
-        <input v-model="uinput2" placeholder="sol 2" type="number" style=margin:10px>
+    <div v-show="displaySubmit" class="submit-block">
+        <input v-model="uinput1" placeholder="Solution 1" type="number" style=margin:10px>
+        <input v-model="uinput2" placeholder="Solution 2" type="number" style=margin:10px>
         <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
         <h1 v-show="correct" class="correct-banner">Correct!</h1>
         <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
+        
     </div>
     
     
-    <Hint v-if="displayHint1" v-bind:description='hintContent1' />
+    <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true" />
     
-    <Hint v-if="displayHint2" v-bind:description='hintContent2'/>
+    <Hint v-if="displayHint2" v-bind:description='hintContent2' v-bind:text="true"/>
     
-    <Hint v-if="displayHint3" v-bind:description='hintContent3'/>
+    <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true"/>
     
-    <Hint v-if="displayHint4" v-bind:description='hintContent4'/>
+    <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true"/>
 
 
     </div>
@@ -60,6 +61,7 @@ export default {
                 hintContent3: null,
                 hintContent4: null,
                 displayHintButton: null,
+                displaySubmit: false,
                 numHint: 1,
                 isDisabled: false,
 
@@ -81,6 +83,7 @@ export default {
             this.correct = false;
             this.incorrect = false;
             this.displayHintButton = true;
+            this.displaySubmit = true;
             this.numHint = 1;
             this.displayAllHints(false)
             this.isDisabled = false;            
@@ -200,5 +203,18 @@ export default {
     padding: 10px;
 }
 
+.display-hint-button {
+    position:relative;
+    background-color: rgb(229, 236, 122);
+    padding:10px;
+    margin:20px;
+    text-emphasis-color: white;
+    border-radius: 10px;
+}
+
+.display-hint-button:hover {
+    background-color: rgb(235, 245, 102);
+    cursor: pointer;
+}
 
 </style>

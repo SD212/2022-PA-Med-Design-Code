@@ -6,7 +6,8 @@
 
       <br>
       <br>
-      <vue-mathjax :formula="description"></vue-mathjax>
+      <vue-mathjax v-if="text" :formula="description"></vue-mathjax>
+      <img v-if="image" :src="path">
     </div>
   </div>
   </div>
@@ -19,7 +20,10 @@ export default {
     name: 'Hint',
     props: {
       'vue-mathjax': VueMathjax,
-      'description': String
+      'description': String,
+      'text': Boolean,
+      'image': Boolean,
+      'path': String
     },
     components: {
       'vue-mathjax': VueMathjax
@@ -44,6 +48,13 @@ export default {
   display: inline-block;
   
   width: 100%;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 550px;
 }
 
 .hint-description {
