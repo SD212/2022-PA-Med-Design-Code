@@ -1,7 +1,7 @@
 
 <template>
     <div class="probem">
-        <button v-on:click="createProblem" class="problem-button">Generate Problem</button>
+        <button v-on:click="createProblem" class="problem-button">Generate Factoring Problem</button>
         <br>
         <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button>
         
@@ -203,5 +203,18 @@ export default {
     padding: 10px;
 }
 
+.display-hint-button {
+    position:relative;
+    background-color: rgb(229, 236, 122);
+    padding:10px;
+    margin:20px;
+    text-emphasis-color: white;
+    border-radius: 10px;
+}
+
+.display-hint-button:hover {
+    background-color: rgb(235, 245, 102);
+    cursor: pointer;
+}
 
 </style>

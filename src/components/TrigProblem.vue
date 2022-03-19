@@ -2,11 +2,14 @@
 <template>
     <div class="probem">
         
-        <button v-on:click="createProblem" class="problem-button">Generate Problem</button>
+        <button v-on:click="createProblem" class="problem-button">Generate Trig Problem</button>
         <br>
-        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button">Display Hint ({{numHint}}/2)</button>
+        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button">Display Hint</button>
+        <br>
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
+        
+        <p>Write your answer in one of these forms: 1/2, {{formForSqrt}}, or undefined</p>
         <div v-show="displaySubmit" class="submit-block">
             <input v-model="uinput" placeholder="Solution" style=margin:10px>
             <button class="submit-button" v-on:click="submitMethod">Submit</button>
@@ -55,7 +58,10 @@ export default {
                     "pi/4", "3pi/4", "5pi/4", "7pi/4",
                     "pi/6", "5pi/6", "7pi/6", "11pi/6"
                 ],
-                functionArray: ["sin", "cos", "tan"]
+                functionArray: ["sin", "cos", "tan"],
+                formForSqrt: "sqrt(2)/2",
+                openPar: "(",
+                closePar: ")"
 
             }
     },
@@ -201,6 +207,20 @@ export default {
     margin: 10px, 10px;
     border-radius: 30px;
     padding: 10px;
+}
+
+.display-hint-button {
+    position:relative;
+    background-color: rgb(229, 236, 122);
+    padding:10px;
+    margin:20px;
+    text-emphasis-color: white;
+    border-radius: 10px;
+}
+
+.display-hint-button:hover {
+    background-color: rgb(235, 245, 102);
+    cursor: pointer;
 }
 
 
