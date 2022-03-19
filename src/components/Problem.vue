@@ -71,8 +71,8 @@ export default {
     },
     methods: {
         createProblem() {
-            var randomSol1 = Math.floor(Math.random() * (13 + 5)  - 5);
-            var randomSol2 = Math.floor(Math.random() * (13 + 5) - 5);
+            var randomSol1 = Math.floor(Math.random() * (25) - 12);
+            var randomSol2 = Math.floor(Math.random() * (25) - 12);
             this.sol1 = -randomSol1;
             this.sol2 = -randomSol2;
             this.problem = this.makeform(randomSol1, randomSol2);
