@@ -106,7 +106,7 @@ export default {
         Top: 20 px;
         left: 20 px;
         border: 1px solid black;
-        height: 50%;
+        height: 20%;
         width: 12%;
         text-align: left;
         padding:10px;
