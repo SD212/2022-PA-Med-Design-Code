@@ -73,8 +73,12 @@ export default {
     },
     methods: {
         createProblem() {
-            var randomSol1 = Math.floor(Math.random() * (13 + 5)  - 5);
-            var randomSol2 = Math.floor(Math.random() * (13 + 5) - 5);
+            var randomSol1 = Math.floor(Math.random() * (25) - 12);
+            var randomSol2 = Math.floor(Math.random() * (25) - 12);
+            
+            this.uinput1 = "";
+            this.uinput2 = "";
+            
             this.sol1 = -randomSol1;
             this.sol2 = -randomSol2;
             this.problem = this.makeform(randomSol1, randomSol2);
@@ -179,14 +183,14 @@ export default {
     padding: 10px;
     border-radius: 10px;
     border: 5px solid black;
-    animation: correct-banner-animation 1s; 
+    animation: correct-banner-animation 0.5s; 
 }
 .incorrect-banner{
     background-color: rgb(216, 43, 0);
     padding: 10px;
     border-radius: 10px;
     border: 5px solid black;
-    animation: correct-banner-animation 1s;
+    animation: correct-banner-animation 0.5s;
 }
 @keyframes correct-banner-animation {
   0%    { opacity: 0; }
