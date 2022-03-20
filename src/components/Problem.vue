@@ -97,9 +97,21 @@ export default {
             var cVal = sol1 * sol2;
             this.bVal = bVal;
             this.cVal = cVal;
+            var finalForm = '$$x^2';
             
             this.makeHints()
-            return "$$x^2 + " + bVal + "x + " + cVal + " = 0$$";
+            if (bVal > 0) {
+                finalForm += ' + ' + bVal + 'x';
+            } else if (bVal < 0) {
+                finalForm += ' - ' + Math.abs(bVal) + 'x';
+            }
+            if (cVal > 0) {
+                finalForm += ' + ' + cVal;
+            } else if (cVal < 0) {
+                finalForm += ' - ' + Math.abs(cVal);
+            }
+            finalForm += ' = 0$$';
+            return finalForm;
 
         },
         submitMethod() {
@@ -124,13 +136,23 @@ export default {
       makeHints() {
             var sol1 = this.sol1
             var sol2 = this.sol2;
-            //var b = sol1 + sol2;
             var c = sol1 * sol2
             var b = sol1 + sol2
 
           this.hintContent1 = '$$c = ' + c + ' = ' + sol1 + ' * ' + sol2 + '$$'
-          this.hintContent2 = '$$b = ' + b + ' = ' + sol1 + ' + ' + sol2 + '$$'
-          this.hintContent3 = '$$(x + ' + sol1 * -1 + ')' + '(x + ' + sol2 * -1 + ')$$'
+          this.hintContent2 = '$$b = ' + b + ' = ' + sol1
+          if (sol2 >= 0) {
+              this.hintContent2 += ' + ' + sol2 + '$$';
+              this.hintContent3 = '(x - ' + sol2 + ')$$';
+          } else {
+              this.hintContent2 += ' - ' + Math.abs(sol2) + '$$';
+              this.hintContent3 = '(x + ' + Math.abs(sol2) + ')$$';
+          }
+          if (sol1 >= 0) {
+              this.hintContent3 = '$$(x - ' + sol1 + ')' + this.hintContent3;
+          } else {
+              this.hintContent3 = '$$(x + ' + Math.abs(sol1) + ')' + this.hintContent3;
+          }
           this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'
       },
       displayAllHints(show) {
