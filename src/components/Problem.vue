@@ -100,7 +100,11 @@ export default {
             var finalForm = '$$x^2';
             
             this.makeHints()
-            if (bVal > 0) {
+            if (bVal == 1) {
+                finalForm += ' + x';
+            } else if (bVal == -1) {
+                finalForm += ' - x';
+            } else if (bVal > 0) {
                 finalForm += ' + ' + bVal + 'x';
             } else if (bVal < 0) {
                 finalForm += ' - ' + Math.abs(bVal) + 'x';
