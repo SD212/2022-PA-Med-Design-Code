@@ -8,10 +8,10 @@ class Fraction{
   
     simplify() {
       let max = 0;
-      if (this.num > this.denom) {
-        max = this.num;
+      if (Math.abs(this.num) > Math.abs(this.denom)) {
+        max = Math.abs(this.num);
       } else {
-        max = this.denom;
+        max = Math.abs(this.denom);
       }
       for (let dividend = 2; dividend <= max; dividend++) {
         if (this.num % dividend == 0 && this.denom % dividend == 0) {
