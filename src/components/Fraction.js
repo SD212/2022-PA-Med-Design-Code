@@ -68,3 +68,5 @@ class Fraction{
       }
     }
   }
+
+  export default Fraction;
