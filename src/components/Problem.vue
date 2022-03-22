@@ -11,9 +11,10 @@
     <div v-show="displaySubmit" class="submit-block">
         <input v-model="uinput1" placeholder="Solution 1" type="number" style=margin:10px>
         <input v-model="uinput2" placeholder="Solution 2" type="number" style=margin:10px>
-        <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
+        <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled' >Submit</button>
+        <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button>
         <h1 v-show="correct" class="correct-banner">Correct!</h1>
-        <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
+        <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1>
         
     </div>
     
@@ -97,25 +98,25 @@ export default {
             var cVal = sol1 * sol2;
             this.bVal = bVal;
             this.cVal = cVal;
-            var finalForm = '$$x^2';
+            var bExpression = " + " + bVal+"x";
+            var cExpression = "+ " + cVal;
+
             
             this.makeHints()
-            if (bVal == 1) {
-                finalForm += ' + x';
-            } else if (bVal == -1) {
-                finalForm += ' - x';
-            } else if (bVal > 0) {
-                finalForm += ' + ' + bVal + 'x';
-            } else if (bVal < 0) {
-                finalForm += ' - ' + Math.abs(bVal) + 'x';
+
+            if (bVal<0){ //gets rid of the + signs if b or c are negative (redundancy)
+                bExpression= bVal+"x";
+            } 
+            if (cVal<0){
+                cExpression = cVal;
             }
-            if (cVal > 0) {
-                finalForm += ' + ' + cVal;
-            } else if (cVal < 0) {
-                finalForm += ' - ' + Math.abs(cVal);
+            if (bVal==0){ //gets rid of the b or c expression of they are 0
+                bExpression = "";
             }
-            finalForm += ' = 0$$';
-            return finalForm;
+            if (cVal==0){
+                cExpression = "";
+            }
+            return "$$x^2 " + bExpression + cExpression + " = 0$$";
 
         },
         submitMethod() {
@@ -123,10 +124,12 @@ export default {
                 this.correct = true;
                 this.incorrect=false;
                 this.isDisabled = true;
+                this.numHint = 4;
             } else if (this.uinput1 == this.sol2 && this.uinput2 == this.sol1) {
                 this.correct = true;
                 this.incorrect=false;
                 this.isDisabled = true;
+                this.numHint = 4;
             } else {
                 this.incorrect=true;
             }
