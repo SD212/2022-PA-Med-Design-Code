@@ -12,8 +12,9 @@
         <p>Write your answer in one of these forms: 1/2, {{formForSqrt}}, or undefined</p>
         <div v-show="displaySubmit" class="submit-block">
             <input v-model="uinput" placeholder="Solution" style=margin:10px>
-            <button class="submit-button" v-on:click="submitMethod">Submit</button>
-            <h1 v-show="correct">Correct!</h1>
+            <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
+            <h1 v-show="correct" class="correct-banner">Correct!</h1>
+            <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
         </div>
     
         <Hint v-if="displayHint1" v-bind:path='"https://i.postimg.cc/d1gnGckk/cropped-unit-circle.jpg"' v-bind:image="true" />
@@ -37,12 +38,14 @@ export default {
                 count: 0,
                 uinput: null,
                 correct: false,
+                incorrect: false,
                 solution: null,
                 displaySolution: null,
                 displayHint1: false,
                 hintContent1: null,
                 displayHintButton: null,
                 displaySubmit: false,
+                isDisabled: false,
                 numHint: 1,
                 coeffArray: [
                     1, 2, 3, 4, 
@@ -84,7 +87,7 @@ export default {
             let coeffString = this.stringCoeffArray[coeffIndex]; //coefficient string
             let functionIndex = this.getRandTrigFunction(); //index of the trig function in the array
             let fun = this.functionArray[functionIndex]; //function string
-        
+
             let num = Math.PI * coeff; //number that goes into the trig function
             let isNeg = false; 
             if (functionIndex == 0){
@@ -122,7 +125,7 @@ export default {
                 solution = "0"
                 displaySolution = "0";
                 isNeg = false;
-            } else if (solution.toPrecision(3) == 544){
+            } else if (solution>100){ //catches undefined answers
                 solution = "undefined"
                 displaySolution = "undefined";
                 isNeg = false
@@ -141,11 +144,17 @@ export default {
             
             this.displaySolution = "$$" + displaySolution + "$$"
             this.solution = solution
+
+            this.uinput1 = "";
+            this.uinput2 = "";
             
             this.correct = false;
+            this.incorrect = false;
+            this.isDisabled = false;
             this.displayHintButton = true;
             this.displaySubmit = true;
             this.numHint = 1;
+            this.uinput = "";
             this.displayAllHints(false) 
             
             console.log("Coeff string is " + coeffString)
@@ -159,9 +168,11 @@ export default {
             
             if (this.uinput == this.solution) {
                 this.correct = true;
+                this.incorrect=false;
+                this.isDisabled = true;
             } else {
-                alert("wrong")
-                alert(this.solution)
+                this.incorrect=true;
+                this.correct=false;
             }
             
             if (this.correct) {
@@ -222,6 +233,23 @@ export default {
     background-color: rgb(235, 245, 102);
     cursor: pointer;
 }
-
+.correct-banner{
+    background-color: rgb(149, 233, 141);
+    padding: 10px;
+    border-radius: 10px;
+    border: 5px solid black;
+    animation: correct-banner-animation 0.5s; 
+}
+.incorrect-banner{
+    background-color: rgb(216, 43, 0);
+    padding: 10px;
+    border-radius: 10px;
+    border: 5px solid black;
+    animation: correct-banner-animation 0.5s;
+}
+@keyframes correct-banner-animation {
+  0%    { opacity: 0; }
+  100%  { opacity: 1; }
+}
 
 </style>

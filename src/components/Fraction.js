@@ -8,7 +8,7 @@ class Fraction{
   
     simplify() {
       let max = 0;
-      if (this.num > this.denom) {
+      if (Math.abs(this.num) > Math.abs(this.denom)) {
         max = Math.abs(this.num);
       } else {
         max = Math.abs(this.denom);
