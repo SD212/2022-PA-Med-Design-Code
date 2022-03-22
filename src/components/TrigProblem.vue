@@ -9,7 +9,7 @@
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
         
-        <p>Write your answer in one of these forms: 1/2, {{formForSqrt}}, or undefined</p>
+        <p>Write your answer in one of these forms: 1/2, sqrt(2)/2, or undefined</p>
         <div v-show="displaySubmit" class="submit-block">
             <input v-model="uinput" placeholder="Solution" style=margin:10px>
             <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
@@ -55,17 +55,13 @@ export default {
                     1/6, 5/6, 7/6, 11/6
                 ],
                 stringCoeffArray: [
-                    "pi", "2pi", "3pi", "4pi", 
-                    "pi/2", "3pi/2", 
-                    "pi/3", "2pi/3", "4pi/3", "5pi/3", 
-                    "pi/4", "3pi/4", "5pi/4", "7pi/4",
-                    "pi/6", "5pi/6", "7pi/6", "11pi/6"
+                    "\\pi", "2\\pi", "3\\pi", "4\\pi", 
+                    "\\frac{\\pi}{2}", "\\frac{3\\pi}{2}", 
+                    "\\frac{\\pi}{3}", "\\frac{2\\pi}{3}", "\\frac{4\\pi}{3}", "\\frac{5\\pi}{3}", 
+                    "\\frac{\\pi}{4}", "\\frac{3\\pi}{4}", "\\frac{5\\pi}{4}", "\\frac{7\\pi}{4}",
+                    "\\frac{\\pi}{6}", "\\frac{5\\pi}{6}", "\\frac{7\\pi}{6}", "\\frac{11\\pi}{6}"
                 ],
                 functionArray: ["sin", "cos", "tan"],
-                formForSqrt: "sqrt(2)/2",
-                openPar: "(",
-                closePar: ")"
-
             }
     },
     components: {
@@ -140,7 +136,7 @@ export default {
                 displaySolution = "-" + displaySolution
             }
 
-            this.formula = "$$" + fun + "("  + coeffString + ")$$"
+            this.formula = "$$" + fun + "\\left(" + coeffString + "\\right)$$"
             
             this.displaySolution = "$$" + displaySolution + "$$"
             this.solution = solution
