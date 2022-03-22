@@ -9,12 +9,13 @@
         <vue-mathjax :formula="formula"></vue-mathjax>
         <br>
         
-        <p>Write your answer in one of these forms: 1/2, {{formForSqrt}}, or undefined</p>
+        <p>Write your answer in one of these forms: 1/2, {{formForSqrt}}, {{formForSqrt3}}, or undefined</p>
         <div v-show="displaySubmit" class="submit-block">
             <input v-model="uinput" placeholder="Solution" style=margin:10px>
             <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
+            <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button>
             <h1 v-show="correct" class="correct-banner">Correct!</h1>
-            <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
+            <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1>
         </div>
     
         <Hint v-if="displayHint1" v-bind:path='"https://i.postimg.cc/d1gnGckk/cropped-unit-circle.jpg"' v-bind:image="true" />
@@ -63,6 +64,7 @@ export default {
                 ],
                 functionArray: ["sin", "cos", "tan"],
                 formForSqrt: "sqrt(2)/2",
+                formForSqrt3: "sqrt(3)/2",
                 openPar: "(",
                 closePar: ")"
 
