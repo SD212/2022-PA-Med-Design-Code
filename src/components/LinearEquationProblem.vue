@@ -1,4 +1,3 @@
-
 <template>
     <div class="probem">
         <button v-on:click="createProblem" class="problem-button">Generate Linear Problem</button>
@@ -9,7 +8,7 @@
         <br>
     
     <div v-show="displaySubmit" class="submit-block">
-        <input v-model="uinput" placeholder="Solution 1" type="number" style=margin:10px>
+        <input v-model="uinput" placeholder="Solution 1" style=margin:10px>
         <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
         <h1 v-show="correct" class="correct-banner">Correct!</h1>
         <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
@@ -35,7 +34,7 @@ import Hint from './Hint.vue'
 import Fraction from './Fraction.js'
 
 export default {
-    name: 'Problem',
+    name: 'LinearEquationProblem',
     props: {
 
     },
@@ -82,7 +81,7 @@ export default {
                 solution.setDenom(1);
             }
             let otherSide = new Fraction(solution.getNum(), solution.getDenom());
-            this.hintContent4 = "x = " + solution;
+            this.hintContent4 = "$$x = " + solution + "$$";
 
             //multiply both sides by a random factor
             const factor = new Fraction(Math.trunc(Math.random()*18) + 1, (Math.trunc(Math.random()*6)+1));
@@ -102,8 +101,8 @@ export default {
             } else {
                 factorString = "(" + factor.toString() + ")";
             }
-            this.hintContent2 = factorString + "x = " + otherSide;
-            this.hintContent3 = factorString + "x * " + factor.getDenom() + "/" + factor.getNum() + " = " + otherSide + " * " + factor.getDenom() + "/" + factor.getNum();
+            this.hintContent2 = "$$" + factorString + "x = " + otherSide + "$$";
+            this.hintContent3 = "$$" + factorString + "x * " + factor.getDenom() + "/" + factor.getNum() + " = " + otherSide + " * " + factor.getDenom() + "/" + factor.getNum() + "$$";
 
             //add or subtract a random constant from both sides
             const constant = new Fraction(Math.trunc(Math.random()*24)+1, Math.trunc(Math.random()*3)+1);
@@ -113,23 +112,15 @@ export default {
             let problem;
             if (Math.random() >= 0.5) {
                 otherSide = otherSide.add(constant);
-                problem = factorString + "x + " + constant + " = " + otherSide;
-                this.hintContent1 = factorString + "x + " + constant + " - " + constant + " = " + otherSide + " - " + constant;
+                problem = "$$" + factorString + "x + " + constant + " = " + otherSide + "$$";
+                this.hintContent1 = "$$" + factorString + "x + " + constant + " - " + constant + " = " + otherSide + " - " + constant + "$$";
             } else {
                 otherSide = otherSide.subtract(constant);
-                problem = factorString + "x - " + constant + " = " + otherSide;
-                this.hintContent1 = factorString + "x - " + constant + " + " + constant + " = " + otherSide + " + " + constant;
+                problem = factorString + "$$x - " + constant + " = " + otherSide + "$$";
+                this.hintContent1 = "$$" + factorString + "x - " + constant + " + " + constant + " = " + otherSide + " + " + constant + "$$";
             }
-            console.log(problem)
-            this.formula = problem
             
-            /*var randomSol1 = Math.floor(Math.random() * (13 + 5)  - 5);
-            var randomSol2 = Math.floor(Math.random() * (13 + 5) - 5);
-            this.sol1 = -randomSol1;
-            this.sol2 = -randomSol2;
-            this.problem = this.makeform(randomSol1, randomSol2);
-            this.formula = this.problem
-            */ 
+            this.formula = problem
             this.correct = false;
             this.incorrect = false;
             this.displayHintButton = true;
@@ -150,9 +141,7 @@ export default {
             
             if (this.correct) {
                 this.displayAllHints(true)
-            } 
-
-
+            }
       },
       makeHints() {
             var sol1 = this.sol1
@@ -190,7 +179,6 @@ export default {
                     this.displayHint4 = true;
                     break;
           }
-          
       }
     }
 }
