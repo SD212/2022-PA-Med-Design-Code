@@ -1,7 +1,6 @@
-
 <template>
     <div class="probem">
-        <button v-on:click="createProblem" class="problem-button">Generate Factoring Problem</button>
+        <button v-on:click="createProblem" class="problem-button">Generate Linear Problem</button>
         <br>
         <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button>
         
@@ -9,12 +8,10 @@
         <br>
     
     <div v-show="displaySubmit" class="submit-block">
-        <input v-model="uinput1" placeholder="Solution 1" type="number" style=margin:10px>
-        <input v-model="uinput2" placeholder="Solution 2" type="number" style=margin:10px>
-        <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled' >Submit</button>
-        <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button>
+        <input v-model="uinput" placeholder="Solution 1" style=margin:10px>
+        <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
         <h1 v-show="correct" class="correct-banner">Correct!</h1>
-        <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1>
+        <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
         
     </div>
     
@@ -34,9 +31,10 @@
 <script>
 import {VueMathjax} from 'vue-mathjax'
 import Hint from './Hint.vue'
+import Fraction from './Fraction.js'
 
 export default {
-    name: 'Problem',
+    name: 'LinearEquationProblem',
     props: {
 
     },
@@ -45,8 +43,7 @@ export default {
                 problem: '',
                 formula: "",
                 count: 0,
-                uinput1: null,
-                uinput2: null,
+                uinput: null,
                 correct: false,
                 incorrect: false,
                 bVal: 0,
@@ -74,92 +71,88 @@ export default {
     },
     methods: {
         createProblem() {
-            var randomSol1 = Math.floor(Math.random() * (25) - 12);
-            var randomSol2 = Math.floor(Math.random() * (25) - 12);
             
-            this.uinput1 = "";
-            this.uinput2 = "";
+            const solution = new Fraction(Math.trunc(Math.random()*21), Math.trunc(Math.random()*4)+1);
             
-            this.sol1 = -randomSol1;
-            this.sol2 = -randomSol2;
-            this.problem = this.makeform(randomSol1, randomSol2);
-            this.formula = this.problem
+            if (Math.random() >= 0.5) {
+                solution.setNum(solution.getNum()*-1);
+            }
+            if (Math.random() >= 0.5) {
+                solution.setDenom(1);
+            }
+            let otherSide = new Fraction(solution.getNum(), solution.getDenom());
+            this.hintContent4 = "$$x = " + solution + "$$";
 
+            //multiply both sides by a random factor
+            const factor = new Fraction(Math.trunc(Math.random()*18) + 1, (Math.trunc(Math.random()*6)+1));
+            if (Math.random() >= 0.5) {
+                factor.setDenom(1);
+            }
+            if (Math.random() >= 0.5) {
+                factor.setNum(factor.getNum() * -1);
+                factor.setNum(factor.getNum() - 1);
+            } else {
+                factor.setNum(factor.getNum() + 1);
+            }
+            otherSide = otherSide.multiply(factor);
+                let factorString;
+            if (factor.getDenom() == 1) {
+                factorString = factor.toString();
+            } else {
+                factorString = "(" + factor.toString() + ")";
+            }
+            this.hintContent2 = "$$" + factorString + "x = " + otherSide + "$$";
+            this.hintContent3 = "$$" + factorString + "x * " + factor.getDenom() + "/" + factor.getNum() + " = " + otherSide + " * " + factor.getDenom() + "/" + factor.getNum() + "$$";
+
+            //add or subtract a random constant from both sides
+            const constant = new Fraction(Math.trunc(Math.random()*24)+1, Math.trunc(Math.random()*3)+1);
+            if (Math.random() >= 0.5) {
+                constant.setDenom(1);
+            }
+            let problem;
+            if (Math.random() >= 0.5) {
+                otherSide = otherSide.add(constant);
+                problem = "$$" + factorString + "x + " + constant + " = " + otherSide + "$$";
+                this.hintContent1 = "$$" + factorString + "x + " + constant + " - " + constant + " = " + otherSide + " - " + constant + "$$";
+            } else {
+                otherSide = otherSide.subtract(constant);
+                problem = factorString + "$$x - " + constant + " = " + otherSide + "$$";
+                this.hintContent1 = "$$" + factorString + "x - " + constant + " + " + constant + " = " + otherSide + " + " + constant + "$$";
+            }
+            
+            this.formula = problem
             this.correct = false;
             this.incorrect = false;
             this.displayHintButton = true;
             this.displaySubmit = true;
             this.numHint = 1;
             this.displayAllHints(false)
-            this.isDisabled = false;            
-        },
-        makeform(sol1, sol2) {
-            var bVal = sol1 + sol2;
-            var cVal = sol1 * sol2;
-            this.bVal = bVal;
-            this.cVal = cVal;
-            var bExpression = " + " + bVal+"x";
-            var cExpression = "+ " + cVal;
-
-            
-            this.makeHints()
-
-            if (bVal<0){ //gets rid of the + signs if b or c are negative (redundancy)
-                bExpression= bVal+"x";
-            } 
-            if (cVal<0){
-                cExpression = cVal;
-            }
-            if (bVal==0){ //gets rid of the b or c expression of they are 0
-                bExpression = "";
-            }
-            if (cVal==0){
-                cExpression = "";
-            }
-            return "$$x^2 " + bExpression + cExpression + " = 0$$";
-
+            this.isDisabled = false;
+            this.sol = solution           
         },
         submitMethod() {
-            if (this.uinput1 == this.sol1 && this.uinput2 == this.sol2) {
+            if (this.uinput == this.sol) {
                 this.correct = true;
                 this.incorrect=false;
                 this.isDisabled = true;
-                this.numHint = 4;
-            } else if (this.uinput1 == this.sol2 && this.uinput2 == this.sol1) {
-                this.correct = true;
-                this.incorrect=false;
-                this.isDisabled = true;
-                this.numHint = 4;
             } else {
                 this.incorrect=true;
             }
             
             if (this.correct) {
                 this.displayAllHints(true)
-            } 
-
-
+            }
       },
       makeHints() {
             var sol1 = this.sol1
             var sol2 = this.sol2;
+            //var b = sol1 + sol2;
             var c = sol1 * sol2
             var b = sol1 + sol2
 
           this.hintContent1 = '$$c = ' + c + ' = ' + sol1 + ' * ' + sol2 + '$$'
-          this.hintContent2 = '$$b = ' + b + ' = ' + sol1
-          if (sol2 >= 0) {
-              this.hintContent2 += ' + ' + sol2 + '$$';
-              this.hintContent3 = '(x - ' + sol2 + ')$$';
-          } else {
-              this.hintContent2 += ' - ' + Math.abs(sol2) + '$$';
-              this.hintContent3 = '(x + ' + Math.abs(sol2) + ')$$';
-          }
-          if (sol1 >= 0) {
-              this.hintContent3 = '$$(x - ' + sol1 + ')' + this.hintContent3;
-          } else {
-              this.hintContent3 = '$$(x + ' + Math.abs(sol1) + ')' + this.hintContent3;
-          }
+          this.hintContent2 = '$$b = ' + b + ' = ' + sol1 + ' + ' + sol2 + '$$'
+          this.hintContent3 = '$$(x + ' + sol1 * -1 + ')' + '(x + ' + sol2 * -1 + ')$$'
           this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'
       },
       displayAllHints(show) {
@@ -186,7 +179,6 @@ export default {
                     this.displayHint4 = true;
                     break;
           }
-          
       }
     }
 }
@@ -212,14 +204,14 @@ export default {
     padding: 10px;
     border-radius: 10px;
     border: 5px solid black;
-    animation: correct-banner-animation 0.5s; 
+    animation: correct-banner-animation 1s; 
 }
 .incorrect-banner{
     background-color: rgb(216, 43, 0);
     padding: 10px;
     border-radius: 10px;
     border: 5px solid black;
-    animation: correct-banner-animation 0.5s;
+    animation: correct-banner-animation 1s;
 }
 @keyframes correct-banner-animation {
   0%    { opacity: 0; }
