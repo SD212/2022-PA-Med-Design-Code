@@ -3,10 +3,17 @@
     
     <div class='menu'>
         <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox'>
-        <label for="factoring">Factoring</label>
+        <label for="factoring">Factoring Problem</label>
         <br>
         <input type="radio" id="trig" value="Trig" v-model="picked" class='checkbox'>
-        <label for="trig">Trig</label>
+        <label for="trig">Trig Problem</label>
+        <br>
+        <input type="radio" id="linear" value="Linear" v-model="picked" class='checkbox'>
+        <label for="linear">Linear Problem</label>
+        <br>
+        <input type="radio" id="system" value="System" v-model="picked" class='checkbox'>
+        <label for="system">System of Equations Problem</label>
+        <br>
         <br>
         <span>Picked: {{ getPicked() }}</span>
     </div> 
@@ -14,6 +21,8 @@
     <!--<Menu />-->
     <Problem v-show="factoring" />
     <TrigProblem v-show="trig" />
+    <LinearEquationProblem v-show="linear" />
+    <SystemProblem v-show="system" />
 
   <div>
     {{this.showProblem()}}
@@ -26,6 +35,8 @@
 import Problem from './components/Problem.vue'
 //import Menu from './components/Menu.vue'
 import TrigProblem from './components/TrigProblem.vue'
+import LinearEquationProblem from './components/LinearEquationProblem.vue'
+import SystemProblem from './components/SystemProblem.vue'
 
 
 export default {
@@ -33,12 +44,16 @@ export default {
   components: {
     Problem,
     //Menu,
-    TrigProblem
+    TrigProblem,
+    LinearEquationProblem,
+    SystemProblem
   },
   data() {
     return {
       factoring: localStorage.getItem("factoring") == "true",
       trig: localStorage.getItem("trig") == "true",
+      linear: localStorage.getItem("linear") == "linear",
+      system: localStorage.getItem("system") == "system",
       picked: "Factoring"
     }
   },
@@ -47,20 +62,26 @@ export default {
       this.factoring = localStorage.factoring
     } else if (localStorage.trig) {
       this.trig = localStorage.trig
+    } else if (localStorage.linear) {
+      this.linear = localStorage.linear
+    } else if (localStorage.system) {
+      this.system = localStorage.system
     }
   },
   methods: {
     showProblem() {
       console.log("showProblem is called")
-      this.factoring = false
-      this.trig = false
+      this.falsifyEverything()
 
       if (localStorage.problemType == "Trig") {
         this.trig = true
-      } else {
+      } else if (localStorage.problemType == "Factoring") {
         this.factoring = true
+      } else if (localStorage.problemType == "Linear") {
+        this.linear = true
+      } else if (localStorage.problemType == "System") {
+        this.system = true
       }
-
     },
     getFactoring() {
       this.showProblem()
@@ -69,6 +90,10 @@ export default {
     getTrig() {
       this.showProblem()
       return this.trig
+    },
+    getLinear() {
+      this.showProblem()
+      return this.linear
     },
     getPicked() {
             /*if (isLocalStorage() ) {
@@ -87,6 +112,12 @@ export default {
             localStorage.problemType = this.picked
 
             return this.picked
+        },
+        falsifyEverything() {
+          this.factoring = false;
+          this.trig = false;
+          this.linear = false;
+          this.system = false;
         }
   }
 }
@@ -107,7 +138,7 @@ export default {
         left: 20 px;
         border: 1px solid black;
         height: 20%;
-        width: 12%;
+        width: 14%;
         text-align: left;
         padding:10px;
     }
