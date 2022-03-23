@@ -165,7 +165,7 @@ export default {
             let hint3 = coef + "x = " + constant;
             hint3 += "$$\n$$x = " + solutionX;
 
-            let hint4 = a1 + "(" + solutionX + ") " + this.signOf(b1) + " " + Math.abs(b1) + "y = " + c1;
+            let hint4 = a1 + "\\left(" + solutionX + "\\right) " + this.signOf(b1) + " " + Math.abs(b1) + "y = " + c1;
             hint4 += "$$\n$$" + (b1 * -1) + "y = " + solutionY.multiply(new Fraction(b1 * -1, 1));
             hint4 += "$$\n$$y = " + solutionY;
 

@@ -110,7 +110,11 @@ export default {
             }
             otherSide = otherSide.multiply(factor);
             this.hintContent2 = "$$" + factor + "x = " + otherSide + "$$";
-            this.hintContent3 = "$$" + factor + "x * " + this.signOf(factor.getNum, true) + "\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "} = " + otherSide + " * " + this.signOf(factor.getNum, true) + "\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}$$";
+            if (factor.getNum() >= 0) {
+                this.hintContent3 = "$$" + factor + "x\\left(\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}\\right) = " + otherSide + "\\left(\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}\\right)$$";
+            } else {
+                this.hintContent3 = "$$" + factor + "x\\left(-\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}\\right) = " + otherSide + "\\left(-\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}\\right)$$";
+            }
 
             //add or subtract a random constant from both sides
             const constant = new Fraction(Math.trunc(Math.random()*24)+1, Math.trunc(Math.random()*3)+1);
