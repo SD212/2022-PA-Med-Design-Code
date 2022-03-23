@@ -70,9 +70,23 @@ export default {
         'vue-mathjax': VueMathjax
     },
     methods: {
+        signOf(num, real) {
+            if (real) {
+                if (num >= 0) {
+                return "+";
+                }
+                return "-";
+            }
+            else {
+                if (num >= 0) {
+                return "-";
+                }
+                return "+";
+            }
+        },
         createProblem() {
             
-            const solution = new Fraction(Math.trunc(Math.random()*21), Math.trunc(Math.random()*4)+1);
+            const solution = new Fraction(Math.trunc(Math.random()*10), Math.trunc(Math.random()*3)+1);
             
             if (Math.random() >= 0.5) {
                 solution.setNum(solution.getNum()*-1);
@@ -84,7 +98,7 @@ export default {
             this.hintContent4 = "$$x = " + solution + "$$";
 
             //multiply both sides by a random factor
-            const factor = new Fraction(Math.trunc(Math.random()*18) + 1, (Math.trunc(Math.random()*6)+1));
+            const factor = new Fraction(Math.trunc(Math.random()*9) + 1, (Math.trunc(Math.random()*4)+1));
             if (Math.random() >= 0.5) {
                 factor.setDenom(1);
             }
@@ -95,14 +109,8 @@ export default {
                 factor.setNum(factor.getNum() + 1);
             }
             otherSide = otherSide.multiply(factor);
-                let factorString;
-            if (factor.getDenom() == 1) {
-                factorString = factor.toString();
-            } else {
-                factorString = "(" + factor.toString() + ")";
-            }
-            this.hintContent2 = "$$" + factorString + "x = " + otherSide + "$$";
-            this.hintContent3 = "$$" + factorString + "x * " + factor.getDenom() + "/" + factor.getNum() + " = " + otherSide + " * " + factor.getDenom() + "/" + factor.getNum() + "$$";
+            this.hintContent2 = "$$" + factor + "x = " + otherSide + "$$";
+            this.hintContent3 = "$$" + factor + "x * " + this.signOf(factor.getNum, true) + "\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "} = " + otherSide + " * " + this.signOf(factor.getNum, true) + "\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}$$";
 
             //add or subtract a random constant from both sides
             const constant = new Fraction(Math.trunc(Math.random()*24)+1, Math.trunc(Math.random()*3)+1);
@@ -112,12 +120,12 @@ export default {
             let problem;
             if (Math.random() >= 0.5) {
                 otherSide = otherSide.add(constant);
-                problem = "$$" + factorString + "x + " + constant + " = " + otherSide + "$$";
-                this.hintContent1 = "$$" + factorString + "x + " + constant + " - " + constant + " = " + otherSide + " - " + constant + "$$";
+                problem = "$$" + factor + "x + " + constant + " = " + otherSide + "$$";
+                this.hintContent1 = "$$" + factor + "x + " + constant + " - " + constant + " = " + otherSide + " - " + constant + "$$";
             } else {
                 otherSide = otherSide.subtract(constant);
-                problem = factorString + "$$x - " + constant + " = " + otherSide + "$$";
-                this.hintContent1 = "$$" + factorString + "x - " + constant + " + " + constant + " = " + otherSide + " + " + constant + "$$";
+                problem = "$$" + factor + "x - " + constant + " = " + otherSide + "$$";
+                this.hintContent1 = "$$" + factor + "x - " + constant + " + " + constant + " = " + otherSide + " + " + constant + "$$";
             }
             
             this.formula = problem
@@ -142,18 +150,6 @@ export default {
             if (this.correct) {
                 this.displayAllHints(true)
             }
-      },
-      makeHints() {
-            var sol1 = this.sol1
-            var sol2 = this.sol2;
-            //var b = sol1 + sol2;
-            var c = sol1 * sol2
-            var b = sol1 + sol2
-
-          this.hintContent1 = '$$c = ' + c + ' = ' + sol1 + ' * ' + sol2 + '$$'
-          this.hintContent2 = '$$b = ' + b + ' = ' + sol1 + ' + ' + sol2 + '$$'
-          this.hintContent3 = '$$(x + ' + sol1 * -1 + ')' + '(x + ' + sol2 * -1 + ')$$'
-          this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'
       },
       displayAllHints(show) {
             this.displayHint1 = show;

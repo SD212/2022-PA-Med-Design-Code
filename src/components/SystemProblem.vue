@@ -89,7 +89,7 @@ export default {
                 if (equation.substring(index, index+1) === "1" && (equation.substring(index+1, index+2) === "x" || equation.substring(index+1, index+2) === "y" || equation.substring(index+1, index+2) === "(")) {
                     if (index == 0) {
                         equation = equation.substring(1, equation.length);
-                    } else if (equation.substring(index-1, index) === " " || equation.substring(index-1, index) === "-" || equation.substring(index-1, index) === "\n") {
+                    } else if (equation.substring(index-1, index) === " " || equation.substring(index-1, index) === "-" || equation.substring(index-1, index) === "$") {
                         equation = equation.substring(0, index) + equation.substring(index+1, equation.length);
                     }
                 }
@@ -114,22 +114,22 @@ export default {
                 solutionY.setDenom(1);
             }
             
-            let a1 = Math.trunc((Math.random()*9)+1);
+            let a1 = Math.trunc((Math.random()*8)+1);
                 if (Math.random() >= 0.5) {
                 a1 *= -1;
             }
 
-            let b1 = Math.trunc((Math.random()*9)+1);
+            let b1 = Math.trunc((Math.random()*8)+1);
             if (Math.random() >= 0.5) {
                 b1 *= -1;
             }
 
-            let a2 = Math.trunc((Math.random()*9)+1);
+            let a2 = Math.trunc((Math.random()*8)+1);
             if (Math.random() >= 0.5) {
                 a2 *= -1;
             }
 
-            let b2 = Math.trunc((Math.random()*9)+1);
+            let b2 = Math.trunc((Math.random()*8)+1);
             if (Math.random() >= 0.5) {
                 b2 *= -1;
             }
@@ -151,22 +151,22 @@ export default {
             let coef = new Fraction(a1 * -1, b1);
             let constant = new Fraction(c1.getNum(), c1.getDenom() * b1);
             let hint1 = b1 + "y = " + c1 + " " + this.signOf(a1, false) + " " + Math.abs(a1) + "x";
-            hint1 += "$$\n$$y = (" + c1 + " " + this.signOf(a1, false) + " " + Math.abs(a1) + "x)/" + b1;
-            hint1 += "$$\n$$y = " + constant + " " + this.signOf(coef.getNum(), true) + " (" + new Fraction(Math.abs(coef.getNum()), coef.getDenom()) + ")x";
+            hint1 += "$$\n$$y = \\frac{" + c1 + " " + this.signOf(a1, false) + " " + Math.abs(a1) + "x}{" + b1 + "}";
+            hint1 += "$$\n$$y = " + constant + " " + this.signOf(coef.getNum(), true) + " " + new Fraction(Math.abs(coef.getNum()), coef.getDenom()) + "x";
 
-            let hint2 = a2 + "x " + this.signOf(b2, true) + " " + Math.abs(b2) + "(" + constant + " " + this.signOf(coef.getNum(), false) + " (" + new Fraction(Math.abs(coef.getNum()), coef.getDenom()) + ")x) = " + c2;
+            let hint2 = a2 + "x " + this.signOf(b2, true) + " " + Math.abs(b2) + "\\left(" + constant + " " + this.signOf(coef.getNum(), true) + " " + new Fraction(Math.abs(coef.getNum()), coef.getDenom()) + "x\\right) = " + c2;
 
             constant = constant.multiply(new Fraction(b2, 1));
             coef = coef.multiply(new Fraction(b2, 1));
-            hint2 += "$$\n$$" + a2 + "x " + this.signOf(constant.getNum(), true) + " " + new Fraction(Math.abs(constant.getNum()), constant.getDenom()) + " " + this.signOf(coef.getNum(), false) + " (" + new Fraction(Math.abs(coef.getNum()), coef.getDenom()) + ")x = " + c2;
+            hint2 += "$$\n$$" + a2 + "x " + this.signOf(constant.getNum(), true) + " " + new Fraction(Math.abs(constant.getNum()), constant.getDenom()) + " " + this.signOf(coef.getNum(), true) + " " + new Fraction(Math.abs(coef.getNum()), coef.getDenom()) + "x = " + c2;
 
-            coef = coef.multiply(new Fraction(-1, 1)).add(new Fraction(a2, 1));
+            coef = coef.add(new Fraction(a2, 1));
             constant = constant.multiply(new Fraction(-1, 1)).add(c2);
-            let hint3 = "(" + coef + ")x = " + constant;
+            let hint3 = coef + "x = " + constant;
             hint3 += "$$\n$$x = " + solutionX;
 
             let hint4 = a1 + "(" + solutionX + ") " + this.signOf(b1) + " " + Math.abs(b1) + "y = " + c1;
-            hint4 += "$$\n$$" + b1 + "y = " + solutionY.multiply(new Fraction(b1, 1));
+            hint4 += "$$\n$$" + (b1 * -1) + "y = " + solutionY.multiply(new Fraction(b1 * -1, 1));
             hint4 += "$$\n$$y = " + solutionY;
 
             problem = this.removeOnes(problem);
