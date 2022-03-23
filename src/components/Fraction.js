@@ -61,10 +61,8 @@ class Fraction{
     subtract(x) {
       return new Fraction(this.num * x.getDenom() - x.getNum() * this.denom, this.denom * x.getDenom());
     }
-    //return in string form; if denominator is 1, return without the fraction bar
     toString() {
       if (this.denom >  1) {
-        //return this.num + "/" + this.denom;
         if (this.num > 0) {
           return "\\frac{" + this.num + "}{" + this.denom + "}";
         } else {
@@ -74,6 +72,15 @@ class Fraction{
         return this.num + "";
       }
     }
+    //return in string form; if denominator is 1, return without the fraction bar
+    toAnswerForm() {
+      if (this.denom >  1) {
+        return this.num + "/" + this.denom;
+      } else {
+        return this.num + "";
+      }
+    }
   }
+  
 
   export default Fraction;

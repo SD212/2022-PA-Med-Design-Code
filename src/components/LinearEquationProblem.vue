@@ -1,6 +1,6 @@
 <template>
     <div class="probem">
-        <button v-on:click="createProblem" class="problem-button">Generate Linear Problem</button>
+        <button v-on:click="createProblem" class="problem-button">Generate Linear Equation Problem</button>
         <br>
         <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button>
         
@@ -11,7 +11,7 @@
         <input v-model="uinput" placeholder="Solution 1" style=margin:10px>
         <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
         <h1 v-show="correct" class="correct-banner">Correct!</h1>
-        <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
+        <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1>
         
     </div>
     
@@ -46,10 +46,6 @@ export default {
                 uinput: null,
                 correct: false,
                 incorrect: false,
-                bVal: 0,
-                cVal: 0,
-                sol1: 0,
-                sol2: 0,
                 displayHint1: false,
                 displayHint2: false,
                 displayHint3: false,
@@ -84,9 +80,21 @@ export default {
                 return "+";
             }
         },
+        removeOnes(equation) {
+            for (let index = equation.length-2; index >= 0; index--) {
+                if (equation.substring(index, index+1) === "1" && (equation.substring(index+1, index+2) === "x" || equation.substring(index+1, index+2) === "y" || equation.substring(index+1, index+2) === "(")) {
+                    if (index == 0) {
+                        equation = equation.substring(1, equation.length);
+                    } else if (equation.substring(index-1, index) === " " || equation.substring(index-1, index) === "-" || equation.substring(index-1, index) === "$") {
+                        equation = equation.substring(0, index) + equation.substring(index+1, equation.length);
+                    }
+                }
+            }
+            return equation;
+        },
         createProblem() {
             
-            const solution = new Fraction(Math.trunc(Math.random()*10), Math.trunc(Math.random()*3)+1);
+            const solution = new Fraction(Math.trunc(Math.random()*10), Math.trunc(Math.random()*4)+1);
             
             if (Math.random() >= 0.5) {
                 solution.setNum(solution.getNum()*-1);
@@ -110,11 +118,12 @@ export default {
             }
             otherSide = otherSide.multiply(factor);
             this.hintContent2 = "$$" + factor + "x = " + otherSide + "$$";
-            if (factor.getNum() >= 0) {
+            /*if (factor.getNum() >= 0) {
                 this.hintContent3 = "$$" + factor + "x\\left(\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}\\right) = " + otherSide + "\\left(\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}\\right)$$";
             } else {
                 this.hintContent3 = "$$" + factor + "x\\left(-\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}\\right) = " + otherSide + "\\left(-\\frac{" + factor.getDenom() + "}{" + Math.abs(factor.getNum()) + "}\\right)$$";
-            }
+            }*/
+            this.hintContent3 = "$$" + factor + "x\\left(" + new Fraction(factor.getDenom(), factor.getNum()) + "\\right) = " + otherSide + "\\left(" + new Fraction(factor.getDenom(), factor.getNum()) + "\\right)$$";
 
             //add or subtract a random constant from both sides
             const constant = new Fraction(Math.trunc(Math.random()*24)+1, Math.trunc(Math.random()*3)+1);
@@ -131,6 +140,12 @@ export default {
                 problem = "$$" + factor + "x - " + constant + " = " + otherSide + "$$";
                 this.hintContent1 = "$$" + factor + "x - " + constant + " + " + constant + " = " + otherSide + " + " + constant + "$$";
             }
+
+            problem = this.removeOnes(problem);
+            this.hintContent1 = this.removeOnes(this.hintContent1);
+            this.hintContent2 = this.removeOnes(this.hintContent2);
+            this.hintContent3 = this.removeOnes(this.hintContent3);
+            this.hintContent4 = this.removeOnes(this.hintContent4);
             
             this.formula = problem
             this.correct = false;
@@ -140,7 +155,7 @@ export default {
             this.numHint = 1;
             this.displayAllHints(false)
             this.isDisabled = false;
-            this.sol = solution           
+            this.sol = solution.toAnswerForm();           
         },
         submitMethod() {
             if (this.uinput == this.sol) {

@@ -98,26 +98,25 @@ export default {
             var cVal = sol1 * sol2;
             this.bVal = bVal;
             this.cVal = cVal;
-            var bExpression = " + " + bVal+"x";
-            var cExpression = "+ " + cVal;
-
+            var finalForm = '$$x^2';
             
             this.makeHints()
-
-            if (bVal<0){ //gets rid of the + signs if b or c are negative (redundancy)
-                bExpression= bVal+"x";
-            } 
-            if (cVal<0){
-                cExpression = cVal;
+            if (bVal == 1) {
+                finalForm += ' + x';
+            } else if (bVal == -1) {
+                finalForm += ' - x';
+            } else if (bVal > 0) {
+                finalForm += ' + ' + bVal + 'x';
+            } else if (bVal < 0) {
+                finalForm += ' - ' + Math.abs(bVal) + 'x';
             }
-            if (bVal==0){ //gets rid of the b or c expression of they are 0
-                bExpression = "";
+             if (cVal > 0) {
+                finalForm += ' + ' + cVal;
+            } else if (cVal < 0) {
+                finalForm += ' - ' + Math.abs(cVal);
             }
-            if (cVal==0){
-                cExpression = "";
-            }
-            return "$$x^2 " + bExpression + cExpression + " = 0$$";
-
+            finalForm += ' = 0$$';
+            return finalForm;
         },
         submitMethod() {
             if (this.uinput1 == this.sol1 && this.uinput2 == this.sol2) {
@@ -144,21 +143,21 @@ export default {
             var sol1 = this.sol1
             var sol2 = this.sol2;
             var c = sol1 * sol2
-            var b = sol1 + sol2
+            var b = sol1 * -1 + sol2 * -1
 
-          this.hintContent1 = '$$c = ' + c + ' = ' + sol1 + ' * ' + sol2 + '$$'
-          this.hintContent2 = '$$b = ' + b + ' = ' + sol1
-          if (sol2 >= 0) {
-              this.hintContent2 += ' + ' + sol2 + '$$';
-              this.hintContent3 = '(x - ' + sol2 + ')$$';
-          } else {
-              this.hintContent2 += ' - ' + Math.abs(sol2) + '$$';
+          this.hintContent1 = '$$c = ' + c + ' = ' + sol1 * -1 + ' * ' + sol2 * -1 + '$$'
+          this.hintContent2 = '$$b = ' + b + ' = ' + sol1 * -1
+          if (sol2 * -1 >= 0) {
+              this.hintContent2 += ' + ' + Math.abs(sol2) + '$$';
               this.hintContent3 = '(x + ' + Math.abs(sol2) + ')$$';
-          }
-          if (sol1 >= 0) {
-              this.hintContent3 = '$$(x - ' + sol1 + ')' + this.hintContent3;
           } else {
+              this.hintContent2 += ' - ' + sol2 + '$$';
+              this.hintContent3 = '(x - ' + sol2 + ')$$';
+          }
+          if (sol1 * -1 >= 0) {
               this.hintContent3 = '$$(x + ' + Math.abs(sol1) + ')' + this.hintContent3;
+          } else {
+              this.hintContent3 = '$$(x - ' + sol1 + ')' + this.hintContent3;
           }
           this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'
       },

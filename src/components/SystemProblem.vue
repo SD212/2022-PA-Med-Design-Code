@@ -12,7 +12,7 @@
         <input v-model="uinputY" placeholder="y = " style=margin:10px>
         <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
         <h1 v-show="correct" class="correct-banner">Correct!</h1>
-        <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
+        <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1>
         
     </div>
     
@@ -165,8 +165,8 @@ export default {
             let hint3 = coef + "x = " + constant;
             hint3 += "$$\n$$x = " + solutionX;
 
-            let hint4 = a1 + "\\left(" + solutionX + "\\right) " + this.signOf(b1) + " " + Math.abs(b1) + "y = " + c1;
-            hint4 += "$$\n$$" + (b1 * -1) + "y = " + solutionY.multiply(new Fraction(b1 * -1, 1));
+            let hint4 = a1 + "\\left(" + solutionX + "\\right) " + this.signOf(b1, true) + " " + Math.abs(b1) + "y = " + c1;
+            hint4 += "$$\n$$" + b1 + "y = " + solutionY.multiply(new Fraction(b1, 1));
             hint4 += "$$\n$$y = " + solutionY;
 
             problem = this.removeOnes(problem);
@@ -180,8 +180,8 @@ export default {
             this.hintContent2 = "$$" + hint2 + "$$";
             this.hintContent3 = "$$" + hint3 + "$$";
             this.hintContent4 = "$$" + hint4 + "$$";
-            this.solX = solutionX;
-            this.solY = solutionY;
+            this.solX = solutionX.toAnswerForm();
+            this.solY = solutionY.toAnswerForm();
             this.uinputX = null;
             this.uniputY = null;
             this.correct = false;
