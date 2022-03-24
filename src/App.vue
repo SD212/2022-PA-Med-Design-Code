@@ -137,8 +137,8 @@ export default {
         Top: 20 px;
         left: 20 px;
         border: 1px solid black;
-        height: 20%;
-        width: 14%;
+        height: 30%;
+        width: 20%;
         text-align: left;
         padding:10px;
     }
