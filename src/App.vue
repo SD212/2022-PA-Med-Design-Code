@@ -132,17 +132,17 @@ export default {
   margin-top: 60px;
 }
 .menu{
-  position: absolute;
-  Top: 20 px;
-  left: 20 px;
-  border: 1px solid black;
-  height: 20%;
-  width: 14%;
-  text-align: left;
-  padding:10px;
-}
-.checkbox{
-  padding: 10px;
-  margin: 10px;
-}
+        position: absolute;
+        Top: 20 px;
+        left: 20 px;
+        border: 1px solid black;
+        height: 30%;
+        width: 20%;
+        text-align: left;
+        padding:10px;
+    }
+    .checkbox{
+        padding: 10px;
+        margin: 10px;
+    }
 </style>

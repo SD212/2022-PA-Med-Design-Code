@@ -169,6 +169,7 @@ export default {
             this.displayHint2 = show;
             this.displayHint3 = show;
             this.displayHint4 = show;
+            this.numHint = 4;
       },
       //display the hints one by one as numHint increases
       displayHints() {
