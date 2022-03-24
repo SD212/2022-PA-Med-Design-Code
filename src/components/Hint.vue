@@ -1,15 +1,12 @@
 <template>
   <div>
-  <div class="hint-board">
-    
     <div class="hint-description">
 
       <br>
       <br>
-      <vue-mathjax v-if="text" :formula="description"></vue-mathjax>
-      <img v-if="image" :src="path">
+      <vue-mathjax v-if="text" :formula="description"></vue-mathjax> <!--if the hint is text, display description-->
+      <img v-if="image" :src="path"> <!--if the hint is text, display image at path "path"-->
     </div>
-  </div>
   </div>
 </template>
 
@@ -20,19 +17,16 @@ export default {
     name: 'Hint',
     props: {
       'vue-mathjax': VueMathjax,
-      'description': String,
-      'text': Boolean,
-      'image': Boolean,
-      'path': String
+      'description': String, //hint in text
+      'text': Boolean, //true if hint is text
+      'image': Boolean, //true if hint is an image
+      'path': String //hint in image
     },
     components: {
       'vue-mathjax': VueMathjax
     },
     data() {
       return {
-        num: 1,
-        //description: 'This is descroption for hint 1'
-        //formula: ''
       }
     },
     methods: {
@@ -42,21 +36,14 @@ export default {
 </script>
 
 <style scoped>
-.hint-board {
-  color: blue;
-  text-align: left;
-  display: inline-block;
-  
-  width: 100%;
-}
-
+/*image displays with a height of 550px */
 img {
   display: block;
   margin-left: auto;
   margin-right: auto;
   height: 550px;
 }
-
+/*hints are in center with black text */
 .hint-description {
   display: inline;
   text-align: center;

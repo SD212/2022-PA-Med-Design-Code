@@ -27,40 +27,41 @@ class Fraction{
         this.denom *= -1;
       }
     }
-  
+    //return the numerator
     getNum() {
       return this.num;
     }
-  
+    //return the denominator
     getDenom() {
       return this.denom;
     }
-  
+    //set the numerator to a value
     setNum(num) {
       this.num = num;
       this.simplify();
     }
-  
+    //set the denominator to a value
     setDenom(denom) {
       this.denom = denom;
       this.simplify();
     }
-  
+    //multiply this fraction with another fraction x
     multiply(x) {
       return new Fraction(this.num * x.getNum(), this.denom * x.getDenom());
     }
-    
+    //divide this fraction by another fraction x
     divide(x) {
       return new Fraction(this.num * x.getDenom(), this.denom * x.getNum());
     }
-  
+    //add this fraction to another fraction x
     add(x) {
       return new Fraction(this.num * x.getDenom() + x.getNum() * this.denom, this.denom * x.getDenom());
     }
-  
+    //subtract another fraction x from this fraction
     subtract(x) {
       return new Fraction(this.num * x.getDenom() - x.getNum() * this.denom, this.denom * x.getDenom());
     }
+    //return a string of the fraction formatted for mathjax
     toString() {
       if (this.denom >  1) {
         if (this.num > 0) {
@@ -68,15 +69,15 @@ class Fraction{
         } else {
           return "-\\frac{" + Math.abs(this.num) + "}{" + this.denom + "}";
         }
-      } else {
+      } else { //to eliminate having fractions over 1
         return this.num + "";
       }
     }
-    //return in string form; if denominator is 1, return without the fraction bar
+    //return in string form to check answers with
     toAnswerForm() {
       if (this.denom >  1) {
         return this.num + "/" + this.denom;
-      } else {
+      } else { //to eliminate having fractions over 1
         return this.num + "";
       }
     }
