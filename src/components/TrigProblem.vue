@@ -1,7 +1,6 @@
 
 <template>
-    <div class="probem">
-        
+    <div class="problem">
         <button v-on:click="createProblem" class="problem-button">Generate Trig Problem</button> <!--creates the problem button which calls createProblem when clicked on-->
         <br>
         <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button">Display Hint</button> <!--creates the display hint button which calls displayHints when clicked-->
@@ -18,7 +17,7 @@
             <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1> <!--displays the incorrect banner-->
         </div>
     
-        <Hint v-if="displayHint1" v-bind:path='"https://i.postimg.cc/d1gnGckk/cropped-unit-circle.jpg"' v-bind:image="true" /> <!--shows the unit circle as hint 1-->
+        <Hint v-if="displayHint1" v-bind:path='"https://i.postimg.cc/d1gnGckk/cropped-unit-circle.jpg"' v-bind:image="true"/> <!--shows the unit circle as hint 1-->
 
     </div>
 </template>
@@ -68,7 +67,6 @@ export default {
                 formForSqrt3: "sqrt(3)/2",
                 openPar: "(",
                 closePar: ")"
-
             }
     },
     components: {
@@ -174,9 +172,8 @@ export default {
             }
             
             if (this.correct) {
-                this.displayAllHints(true)
+                this.displayAllHints(true);
             }
-
       },
       //immediately display all the hints
       displayAllHints(show) {
@@ -211,7 +208,7 @@ export default {
     cursor: pointer;
 }
 /*the formula is bold size 12 text */
-.formula-style{
+.formula-style {
     font:bold;
     font-size: 12px;
 }
@@ -235,7 +232,7 @@ export default {
     cursor: pointer;
 }
 /*green banner saying "Correct!" across the screen */
-.correct-banner{
+.correct-banner {
     background-color: rgb(149, 233, 141);
     padding: 10px;
     border-radius: 10px;
@@ -243,7 +240,7 @@ export default {
     animation: correct-banner-animation 0.5s; 
 }
 /*red banner saying "Incorrect" across the screen */
-.incorrect-banner{
+.incorrect-banner {
     background-color: rgb(216, 43, 0);
     padding: 10px;
     border-radius: 10px;

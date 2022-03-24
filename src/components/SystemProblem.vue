@@ -1,5 +1,5 @@
 <template>
-    <div class="probem">
+    <div class="problem">
         <button v-on:click="createProblem" class="problem-button">Generate System of Equations Problem</button> <!--creates the problem button which calls createProblem when clicked on-->
         <br>
         <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button> <!--creates the display hint button which calls displayHints when clicked-->
@@ -14,18 +14,16 @@
         <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button> <!--creates next problem button which creates a new problem when clicked-->
         <h1 v-show="correct" class="correct-banner">Correct!</h1> <!--displays the correct banner-->
         <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1> <!--displays the incorrect banner-->
-        
     </div>
     
     <!--displays the hints-->
-    <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true" />
+    <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true"/>
     
     <Hint v-if="displayHint2" v-bind:description='hintContent2' v-bind:text="true"/>
     
     <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true"/>
     
     <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true"/>
-
 
     </div>
 </template>
@@ -64,7 +62,6 @@ export default {
                 displaySubmit: false,
                 numHint: 1,
                 isDisabled: false,
-
             }
     },
     components: {
@@ -76,13 +73,12 @@ export default {
         signOf(num, real) {
             if (real) {
                 if (num >= 0) {
-                return "+";
+                    return "+";
                 }
                 return "-";
-            }
-            else {
+            } else {
                 if (num >= 0) {
-                return "-";
+                    return "-";
                 }
                 return "+";
             }
@@ -102,9 +98,9 @@ export default {
         },
         //generates the problem while also generating hints
         createProblem() {
-            
             const solutionX = new Fraction(Math.trunc(Math.random()*10), Math.trunc(Math.random()*3)+1); //set solutions as random fractions
             const solutionY = new Fraction(Math.trunc(Math.random()*10), Math.trunc(Math.random()*3)+1);
+
             if (Math.random() >= 0.5) { //50 50 chance for solutionX to be postive or negative
                 solutionX.setNum(solutionX.getNum()*-1);
             }
@@ -196,7 +192,6 @@ export default {
             this.numHint = 1;
             this.displayAllHints(false)
             this.isDisabled = false;
-
         },
         //check if the user's input matches the answer and display the screen based on whether they're corrrect or not
         submitMethod() {
@@ -221,7 +216,7 @@ export default {
       },
       //display the hints one by one as numHint increases
       displayHints() {
-          switch (this.numHint) {
+            switch (this.numHint) {
                 case 1:
                     this.displayHint1 = true;
                     this.numHint++;
@@ -259,7 +254,7 @@ export default {
     cursor: pointer;
 }
 /*green banner saying "Correct!" across the screen */
-.correct-banner{
+.correct-banner {
     background-color: rgb(149, 233, 141);
     padding: 10px;
     border-radius: 10px;
@@ -267,7 +262,7 @@ export default {
     animation: correct-banner-animation 1s; 
 }
 /*red banner saying "Incorrect" across the screen */
-.incorrect-banner{
+.incorrect-banner {
     background-color: rgb(216, 43, 0);
     padding: 10px;
     border-radius: 10px;
@@ -280,7 +275,7 @@ export default {
   100%  { opacity: 1; }
 }
 /*the formula is bold size 12 text */
-.formula-style{
+.formula-style {
     font:bold;
     font-size: 12px;
 }

@@ -38,7 +38,6 @@ import TrigProblem from './components/TrigProblem.vue'
 import LinearEquationProblem from './components/LinearEquationProblem.vue'
 import SystemProblem from './components/SystemProblem.vue'
 
-
 export default {
   name: 'App',
   components: {
@@ -59,59 +58,59 @@ export default {
   },
   mounted() {
     if (localStorage.factoring) {
-      this.factoring = localStorage.factoring
+      this.factoring = localStorage.factoring;
     } else if (localStorage.trig) {
-      this.trig = localStorage.trig
+      this.trig = localStorage.trig;
     } else if (localStorage.linear) {
-      this.linear = localStorage.linear
+      this.linear = localStorage.linear;
     } else if (localStorage.system) {
-      this.system = localStorage.system
+      this.system = localStorage.system;
     }
   },
   methods: {
     showProblem() {
-      console.log("showProblem is called")
-      this.falsifyEverything()
+      console.log("showProblem is called");
+      this.falsifyEverything();
 
       if (localStorage.problemType == "Trig") {
-        this.trig = true
+        this.trig = true;
       } else if (localStorage.problemType == "Factoring") {
-        this.factoring = true
+        this.factoring = true;
       } else if (localStorage.problemType == "Linear") {
-        this.linear = true
+        this.linear = true;
       } else if (localStorage.problemType == "System") {
-        this.system = true
+        this.system = true;
       }
     },
     getFactoring() {
-      this.showProblem()
-      return this.factoring
+      this.showProblem();
+      return this.factoring;
     },
     getTrig() {
-      this.showProblem()
-      return this.trig
+      this.showProblem();
+      return this.trig;
     },
     getLinear() {
-      this.showProblem()
-      return this.linear
+      this.showProblem();
+      return this.linear;
     },
     getPicked() {
             /*if (isLocalStorage() ) {
                localStorage.setItem('problemType', this.picked)
             }*/
 
-            localStorage.trig = false
-            localStorage.factoring = false
+            localStorage.trig = false;
+            localStorage.factoring = false;
 
             if (this.picked == "Trig") {
-                localStorage.trig = true
+                localStorage.trig = true;
             } else {
-                localStorage.factoring = true
+                localStorage.factoring = true;
             }
 
-            localStorage.problemType = this.picked
+            localStorage.problemType = this.picked;
 
-            return this.picked
+            return this.picked;
         },
         falsifyEverything() {
           this.factoring = false;
@@ -133,17 +132,17 @@ export default {
   margin-top: 60px;
 }
 .menu{
-        position: absolute;
-        Top: 20 px;
-        left: 20 px;
-        border: 1px solid black;
-        height: 20%;
-        width: 14%;
-        text-align: left;
-        padding:10px;
-    }
-    .checkbox{
-        padding: 10px;
-        margin: 10px;
-    }
+  position: absolute;
+  Top: 20 px;
+  left: 20 px;
+  border: 1px solid black;
+  height: 20%;
+  width: 14%;
+  text-align: left;
+  padding:10px;
+}
+.checkbox{
+  padding: 10px;
+  margin: 10px;
+}
 </style>

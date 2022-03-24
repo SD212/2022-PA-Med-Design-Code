@@ -1,5 +1,5 @@
 <template>
-    <div class="probem">
+    <div class="problem">
         <button v-on:click="createProblem" class="problem-button">Generate Linear Equation Problem</button> <!--creates the problem button which calls createProblem when clicked on-->
         <br>
         <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button> <!--creates the display hint button which calls displayHints when clicked-->
@@ -13,7 +13,6 @@
         <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button> <!--creates next problem button which creates a new problem when clicked-->
         <h1 v-show="correct" class="correct-banner">Correct!</h1> <!--displays the correct banner-->
         <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1> <!--displays the incorrect banner-->
-        
     </div>
     
     <!--displays the hints-->
@@ -24,7 +23,6 @@
     <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true"/>
     
     <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true"/>
-
 
     </div>
 </template>
@@ -60,7 +58,6 @@ export default {
                 displaySubmit: false,
                 numHint: 1,
                 isDisabled: false,
-
             }
     },
     components: {
@@ -72,13 +69,12 @@ export default {
         signOf(num, real) {
             if (real) {
                 if (num >= 0) {
-                return "+";
+                    return "+";
                 }
                 return "-";
-            }
-            else {
+            } else {
                 if (num >= 0) {
-                return "-";
+                    return "-";
                 }
                 return "+";
             }
@@ -98,7 +94,6 @@ export default {
         },
         //generates the problem while also generating hints
         createProblem() {
-            
             const solution = new Fraction(Math.trunc(Math.random()*10), Math.trunc(Math.random()*4)+1); //set solution to a random fraction
             
             if (Math.random() >= 0.5) { //50 50 chance for solution to be positive or negative
@@ -110,8 +105,7 @@ export default {
             let otherSide = new Fraction(solution.getNum(), solution.getDenom()); //other side of the equation as of now is the same as the solution
             this.hintContent4 = "$$x = " + solution + "$$"; //hint 4 is made
 
-            //multiply both sides by a random rational factor
-            const factor = new Fraction(Math.trunc(Math.random()*9) + 1, (Math.trunc(Math.random()*4)+1));
+            const factor = new Fraction(Math.trunc(Math.random()*9) + 1, (Math.trunc(Math.random()*4)+1)); //make a random fraction factor to multiply x by
             if (Math.random() >= 0.5) { //like above, make numbers simple more often
                 factor.setDenom(1);
             }
@@ -145,13 +139,13 @@ export default {
             this.hintContent4 = this.removeOnes(this.hintContent4);
             
             //set up variables to display the problem and hints
-            this.formula = problem
+            this.formula = problem;
             this.correct = false;
             this.incorrect = false;
             this.displayHintButton = true;
             this.displaySubmit = true;
             this.numHint = 1;
-            this.displayAllHints(false)
+            this.displayAllHints(false);
             this.isDisabled = false;
             this.sol = solution.toAnswerForm();           
         },
@@ -166,7 +160,7 @@ export default {
             }
             
             if (this.correct) {
-                this.displayAllHints(true)
+                this.displayAllHints(true);
             }
       },
       //immediately display all the hints
@@ -216,7 +210,7 @@ export default {
     cursor: pointer;
 }
 /*green banner saying "Correct!" across the screen */
-.correct-banner{
+.correct-banner {
     background-color: rgb(149, 233, 141);
     padding: 10px;
     border-radius: 10px;
@@ -224,7 +218,7 @@ export default {
     animation: correct-banner-animation 1s; 
 }
 /*red banner saying "Incorrect" across the screen */
-.incorrect-banner{
+.incorrect-banner {
     background-color: rgb(216, 43, 0);
     padding: 10px;
     border-radius: 10px;
@@ -237,7 +231,7 @@ export default {
   100%  { opacity: 1; }
 }
 /*the formula is bold size 12 text */
-.formula-style{
+.formula-style {
     font:bold;
     font-size: 12px;
 }
