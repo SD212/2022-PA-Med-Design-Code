@@ -9,7 +9,7 @@
         <label for="trig">Trig Problem</label>
         <br>
         <input type="radio" id="linear" value="Linear" v-model="picked" class='checkbox'>
-        <label for="linear">Linear Problem</label>
+        <label for="linear">Linear Equation Problem</label>
         <br>
         <input type="radio" id="system" value="System" v-model="picked" class='checkbox'>
         <label for="system">System of Equations Problem</label>

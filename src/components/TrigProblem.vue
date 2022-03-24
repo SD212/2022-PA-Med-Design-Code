@@ -2,23 +2,23 @@
 <template>
     <div class="probem">
         
-        <button v-on:click="createProblem" class="problem-button">Generate Trig Problem</button>
+        <button v-on:click="createProblem" class="problem-button">Generate Trig Problem</button> <!--creates the problem button which calls createProblem when clicked on-->
         <br>
-        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button">Display Hint</button>
+        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button">Display Hint</button> <!--creates the display hint button which calls displayHints when clicked-->
         <br>
-        <vue-mathjax :formula="formula"></vue-mathjax>
+        <vue-mathjax :formula="formula"></vue-mathjax> <!--displays the problem-->
         <br>
         
-        <p>Write your answer in one of these forms: 1/2, {{formForSqrt}}, {{formForSqrt3}}, or undefined</p>
+        <p>Write your answer in one of these forms: 1/2, {{formForSqrt}}, {{formForSqrt3}}, or undefined</p> <!--explains what form to write answers in-->
         <div v-show="displaySubmit" class="submit-block">
-            <input v-model="uinput" placeholder="Solution" style=margin:10px>
-            <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button>
-            <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button>
-            <h1 v-show="correct" class="correct-banner">Correct!</h1>
-            <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1>
+            <input v-model="uinput" placeholder="Solution" style=margin:10px> <!--creates inputs for the user to enter their solutions in-->
+            <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled'>Submit</button> <!--creates the submit button which calls submitMethod when clicked-->
+            <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button> <!--creates next problem button which creates a new problem when clicked-->
+            <h1 v-show="correct" class="correct-banner">Correct!</h1> <!--displays the correct banner-->
+            <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1> <!--displays the incorrect banner-->
         </div>
     
-        <Hint v-if="displayHint1" v-bind:path='"https://i.postimg.cc/d1gnGckk/cropped-unit-circle.jpg"' v-bind:image="true" />
+        <Hint v-if="displayHint1" v-bind:path='"https://i.postimg.cc/d1gnGckk/cropped-unit-circle.jpg"' v-bind:image="true" /> <!--shows the unit circle as hint 1-->
 
     </div>
 </template>
@@ -34,6 +34,7 @@ export default {
     },
     data() {
             return {
+                //set up variables that will be used to hold hints and control what gets displayed on the screen
                 problem: '',
                 formula: "",
                 count: 0,
@@ -56,11 +57,11 @@ export default {
                     1/6, 5/6, 7/6, 11/6
                 ],
                 stringCoeffArray: [
-                    "pi", "2pi", "3pi", "4pi", 
-                    "pi/2", "3pi/2", 
-                    "pi/3", "2pi/3", "4pi/3", "5pi/3", 
-                    "pi/4", "3pi/4", "5pi/4", "7pi/4",
-                    "pi/6", "5pi/6", "7pi/6", "11pi/6"
+                    "\\pi", "2\\pi", "3\\pi", "4\\pi", 
+                    "\\frac{\\pi}{2}", "\\frac{3\\pi}{2}", 
+                    "\\frac{\\pi}{3}", "\\frac{2\\pi}{3}", "\\frac{4\\pi}{3}", "\\frac{5\\pi}{3}", 
+                    "\\frac{\\pi}{4}", "\\frac{3\\pi}{4}", "\\frac{5\\pi}{4}", "\\frac{7\\pi}{4}",
+                    "\\frac{\\pi}{6}", "\\frac{5\\pi}{6}", "\\frac{7\\pi}{6}", "\\frac{11\\pi}{6}"
                 ],
                 functionArray: ["sin", "cos", "tan"],
                 formForSqrt: "sqrt(2)/2",
@@ -75,12 +76,15 @@ export default {
         'vue-mathjax': VueMathjax,
     },
     methods: {
+        //returns random index for coeffArray and stringCoeffArray
         getRandCoeffIndex() {
             return Math.trunc(Math.random()*18);
         },
+        //returns random index for functionArray
         getRandTrigFunction() {
             return Math.trunc(Math.random()*3);
         },
+        //generates the problem
         createProblem() {
             let solution=null;
             let displaySolution = null; 
@@ -92,10 +96,10 @@ export default {
 
             let num = Math.PI * coeff; //number that goes into the trig function
             let isNeg = false; 
-            if (functionIndex == 0){
+            if (functionIndex == 0){ //use the trig function corresponding to the random index to generate solution
                 solution = Math.sin(num);
             } else if (functionIndex==1){
-                solution=Math.cos(num);
+                solution = Math.cos(num);
             } else {
                 solution = Math.tan(num);
             }
@@ -103,11 +107,9 @@ export default {
                 isNeg = true;
                 solution = -1 * solution; //removes the negative for now so the next block is universal
             }
-            /** Change this. Change all the "solution =" to "displaySolution = "
-             * and then make a new "solution = " with the string literal of "sqrt(2)/2"" */
-            if (solution.toPrecision(2) == 0.71){ //converts the irrational decimals to string roots or rational numbers
-                solution = "sqrt(2)/2"
-                displaySolution = "\\frac{\\sqrt{2}}{2}";
+            if (solution.toPrecision(2) == 0.71){ //checks the solutions to the necessary decimal places ot tell them apart
+                solution = "sqrt(2)/2" //assigns string versions of the solutions to solution so that it matches what the user enters
+                displaySolution = "\\frac{\\sqrt{2}}{2}"; //makes a solution formatted for mathjax to be displayed
             } else if (solution.toPrecision(3) == 1.73){
                 solution = "sqrt(3)"
                 displaySolution = "\\sqrt{3}";
@@ -137,12 +139,13 @@ export default {
                 isNeg = false
             }
             
-            if (isNeg) {
+            if (isNeg) { //makes negative solutions negative again since we had to make it positive earlier
                 solution = "-" + solution;
                 displaySolution = "-" + displaySolution
             }
 
-            this.formula = "$$" + fun + "("  + coeffString + ")$$"
+            //set up variables to display the problem and hints
+            this.formula = "$$" + fun + "\\left(" + coeffString + "\\right)$$"
             
             this.displaySolution = "$$" + displaySolution + "$$"
             this.solution = solution
@@ -157,20 +160,13 @@ export default {
             this.displaySubmit = true;
             this.numHint = 1;
             this.uinput = "";
-            this.displayAllHints(false) 
-            
-            console.log("Coeff string is " + coeffString)
-            console.log("fun is " + fun)
-            console.log("sol is " + solution)
+            this.displayAllHints(false)
         },
+        //check if the user's input matches the answer and display the screen based on whether they're corrrect or not
         submitMethod() {
-            // Change this to reflect only uinput
-            
-
-            
             if (this.uinput == this.solution) {
                 this.correct = true;
-                this.incorrect=false;
+                this.incorrect = false;
                 this.isDisabled = true;
             } else {
                 this.incorrect=true;
@@ -182,9 +178,11 @@ export default {
             }
 
       },
+      //immediately display all the hints
       displayAllHints(show) {
             this.displayHint1 = show;
       },
+      //display the hints one by one as numHint increases
       displayHints() {
           switch (this.numHint) {
                 case 1:
@@ -198,6 +196,7 @@ export default {
 </script>
 
 <style scoped>
+/*problem button is green and placed in the center of the screen */
 .problem-button {
     position:relative;
     background-color: rgb(170, 228, 165);
@@ -206,12 +205,12 @@ export default {
     text-emphasis-color: white;
     border-radius: 10px;
 }
-
+/*problem button becomes brighter when cursor hovers over it */
 .problem-button:hover {
     background-color: rgb(149, 233, 141);
     cursor: pointer;
 }
-
+/*the formula is bold size 12 text */
 .formula-style{
     font:bold;
     font-size: 12px;
@@ -221,7 +220,7 @@ export default {
     border-radius: 30px;
     padding: 10px;
 }
-
+/*the display hint button is yellow in the center of the screen */
 .display-hint-button {
     position:relative;
     background-color: rgb(229, 236, 122);
@@ -230,11 +229,12 @@ export default {
     text-emphasis-color: white;
     border-radius: 10px;
 }
-
+/*display hint button gets brighter when hovered over by cursor*/
 .display-hint-button:hover {
     background-color: rgb(235, 245, 102);
     cursor: pointer;
 }
+/*green banner saying "Correct!" across the screen */
 .correct-banner{
     background-color: rgb(149, 233, 141);
     padding: 10px;
@@ -242,6 +242,7 @@ export default {
     border: 5px solid black;
     animation: correct-banner-animation 0.5s; 
 }
+/*red banner saying "Incorrect" across the screen */
 .incorrect-banner{
     background-color: rgb(216, 43, 0);
     padding: 10px;
@@ -249,6 +250,7 @@ export default {
     border: 5px solid black;
     animation: correct-banner-animation 0.5s;
 }
+/*to animate the display of the banner as fading into the screen*/
 @keyframes correct-banner-animation {
   0%    { opacity: 0; }
   100%  { opacity: 1; }
