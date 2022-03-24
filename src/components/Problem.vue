@@ -1,6 +1,5 @@
-
 <template>
-    <div class="probem">
+    <div class="problem">
         <button v-on:click="createProblem" class="problem-button">Generate Factoring Problem</button> <!--creates the problem button which calls createProblem when clicked on-->
         <br>
         <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button> <!--creates the display hint button which calls displayHints when clicked-->
@@ -15,18 +14,16 @@
         <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button> <!--creates next problem button which creates a new problem when clicked-->
         <h1 v-show="correct" class="correct-banner">Correct!</h1> <!--displays the correct banner-->
         <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1> <!--displays the incorrect banner-->
-        
     </div>
     
     <!--displays the hints-->
-    <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true" />
+    <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true"/>
     
     <Hint v-if="displayHint2" v-bind:description='hintContent2' v-bind:text="true"/>
     
     <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true"/>
     
     <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true"/>
-
 
     </div>
 </template>
@@ -66,7 +63,6 @@ export default {
                 displaySubmit: false,
                 numHint: 1,
                 isDisabled: false,
-
             }
     },
     components: {
@@ -87,13 +83,13 @@ export default {
             this.problem = this.makeform(randomSol1, randomSol2); //creates the problem using randomSol1 and randomSol2
 
             //set up variables to display the problem and hints
-            this.formula = this.problem
+            this.formula = this.problem;
             this.correct = false;
             this.incorrect = false;
             this.displayHintButton = true;
             this.displaySubmit = true;
             this.numHint = 1;
-            this.displayAllHints(false)
+            this.displayAllHints(false);
             this.isDisabled = false;            
         },
         //creates the problem using randomSol1 and randomSol2
@@ -126,23 +122,21 @@ export default {
         submitMethod() {
             if (this.uinput1 == this.sol1 && this.uinput2 == this.sol2) {
                 this.correct = true;
-                this.incorrect=false;
+                this.incorrect = false;
                 this.isDisabled = true;
                 this.numHint = 4;
             } else if (this.uinput1 == this.sol2 && this.uinput2 == this.sol1) {
                 this.correct = true;
-                this.incorrect=false;
+                this.incorrect = false;
                 this.isDisabled = true;
                 this.numHint = 4;
             } else {
-                this.incorrect=true;
+                this.incorrect = true;
             }
             
             if (this.correct) {
-                this.displayAllHints(true)
+                this.displayAllHints(true);
             } 
-
-
       },
       //make the hints
       makeHints() {
@@ -151,21 +145,21 @@ export default {
             var c = sol1 * sol2 //c in form ax^2 + by + c = 0
             var b = sol1 * -1 + sol2 * -1 //b in form ax^2 + by + c = 0
 
-          this.hintContent1 = '$$c = ' + c + ' = ' + sol1 * -1 + ' * ' + sol2 * -1 + '$$' //hint 1 shows the factors of c
-          this.hintContent2 = '$$b = ' + b + ' = ' + sol1 * -1 //add the first composition of b to hint 2
-          if (sol2 * -1 >= 0) { //gets rid of plus negative numbers
-              this.hintContent2 += ' + ' + Math.abs(sol2) + '$$'; //finishes hint 2 with the second number
-              this.hintContent3 = '(x + ' + Math.abs(sol2) + ')$$'; //add the first factor of the equation to hint 3
-          } else {
-              this.hintContent2 += ' - ' + sol2 + '$$'; //finishes hint 2 with the second number
-              this.hintContent3 = '(x - ' + sol2 + ')$$'; //add the first factor of the equation to hint 3
-          }
-          if (sol1 * -1 >= 0) {
-              this.hintContent3 = '$$(x + ' + Math.abs(sol1) + ')' + this.hintContent3; //finish hint 3 with the second factor
-          } else {
-              this.hintContent3 = '$$(x - ' + sol1 + ')' + this.hintContent3; //finish hint 3 with the second factor
-          }
-          this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$' //hint 4 shows the values of x
+            this.hintContent1 = '$$c = ' + c + ' = ' + sol1 * -1 + ' * ' + sol2 * -1 + '$$'; //hint 1 shows the factors of c
+            this.hintContent2 = '$$b = ' + b + ' = ' + sol1 * -1; //add the first composition of b to hint 2
+            if (sol2 * -1 >= 0) { //gets rid of plus negative numbers
+                this.hintContent2 += ' + ' + Math.abs(sol2) + '$$'; //finishes hint 2 with the second number
+                this.hintContent3 = '(x + ' + Math.abs(sol2) + ')$$'; //add the first factor of the equation to hint 3
+            } else {
+                this.hintContent2 += ' - ' + sol2 + '$$'; //finishes hint 2 with the second number
+                this.hintContent3 = '(x - ' + sol2 + ')$$'; //add the first factor of the equation to hint 3
+            }
+            if (sol1 * -1 >= 0) {
+                this.hintContent3 = '$$(x + ' + Math.abs(sol1) + ')' + this.hintContent3; //finish hint 3 with the second factor
+            } else {
+                this.hintContent3 = '$$(x - ' + sol1 + ')' + this.hintContent3; //finish hint 3 with the second factor
+            }
+            this.hintContent4 = '$$x = ' + sol1 + ', ' + sol2 + '$$'; //hint 4 shows the values of x
       },
       //immediately display all the hints
       displayAllHints(show) {
@@ -215,7 +209,7 @@ export default {
     cursor: pointer;
 }
 /*green banner saying "Correct!" across the screen */
-.correct-banner{
+.correct-banner {
     background-color: rgb(149, 233, 141);
     padding: 10px;
     border-radius: 10px;
@@ -223,7 +217,7 @@ export default {
     animation: correct-banner-animation 0.5s; 
 }
 /*red banner saying "Incorrect" across the screen */
-.incorrect-banner{
+.incorrect-banner {
     background-color: rgb(216, 43, 0);
     padding: 10px;
     border-radius: 10px;
@@ -236,7 +230,7 @@ export default {
   100%  { opacity: 1; }
 }
 /*the formula is bold size 12 text */
-.formula-style{
+.formula-style {
     font:bold;
     font-size: 12px;
 }

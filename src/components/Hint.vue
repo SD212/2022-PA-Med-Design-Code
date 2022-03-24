@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="hint-description">
-
       <br>
       <br>
       <vue-mathjax v-if="text" :formula="description"></vue-mathjax> <!--if the hint is text, display description-->
