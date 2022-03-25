@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     
-    <div class='menu'>
+    <div class='menu'> <!-- This creates the menu. It contains the checkboxes to choose which type of problem to make. Each label and input is a checkbox-->
         <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox'>
         <label for="factoring">Factoring Problem</label>
         <br>
@@ -18,7 +18,7 @@
         <span>Picked: {{ getPicked() }}</span>
     </div> 
 
-    <!--<Menu />-->
+    <!-- Displays all the problems -->
     <Problem v-show="factoring" />
     <TrigProblem v-show="trig" />
     <LinearEquationProblem v-show="linear" />
@@ -33,7 +33,6 @@
 
 <script>
 import Problem from './components/Problem.vue'
-//import Menu from './components/Menu.vue'
 import TrigProblem from './components/TrigProblem.vue'
 import LinearEquationProblem from './components/LinearEquationProblem.vue'
 import SystemProblem from './components/SystemProblem.vue'
@@ -42,13 +41,12 @@ export default {
   name: 'App',
   components: {
     Problem,
-    //Menu,
     TrigProblem,
     LinearEquationProblem,
     SystemProblem
   },
   data() {
-    return {
+    return { // retuns the option selected for the checkboxes. Localstorage is used to store these preferences.
       factoring: localStorage.getItem("factoring") == "true",
       trig: localStorage.getItem("trig") == "true",
       linear: localStorage.getItem("linear") == "linear",
@@ -56,7 +54,7 @@ export default {
       picked: "Factoring"
     }
   },
-  mounted() {
+  mounted() { // Checks the localstorage to see what the user has selected in the past for the checkboxes and updates the menu with the correct selection.
     if (localStorage.factoring) {
       this.factoring = localStorage.factoring;
     } else if (localStorage.trig) {
@@ -68,8 +66,7 @@ export default {
     }
   },
   methods: {
-    showProblem() {
-      console.log("showProblem is called");
+    showProblem() { // This sets all the problem types in the local storage to false so a new choice can be made
       this.falsifyEverything();
 
       if (localStorage.problemType == "Trig") {
@@ -82,42 +79,16 @@ export default {
         this.system = true;
       }
     },
-    getFactoring() {
-      this.showProblem();
-      return this.factoring;
-    },
-    getTrig() {
-      this.showProblem();
-      return this.trig;
-    },
-    getLinear() {
-      this.showProblem();
-      return this.linear;
-    },
-    getPicked() {
-            /*if (isLocalStorage() ) {
-               localStorage.setItem('problemType', this.picked)
-            }*/
-
-            localStorage.trig = false;
-            localStorage.factoring = false;
-
-            if (this.picked == "Trig") {
-                localStorage.trig = true;
-            } else {
-                localStorage.factoring = true;
-            }
-
-            localStorage.problemType = this.picked;
-
-            return this.picked;
+    getPicked() { // it returns the slelected problem type
+        localStorage.problemType = this.picked;
+        return this.picked;
         },
-        falsifyEverything() {
-          this.factoring = false;
-          this.trig = false;
-          this.linear = false;
-          this.system = false;
-        }
+    falsifyEverything() { // Makes all the variables false so a new choice can be selected.
+        this.factoring = false;
+        this.trig = false;
+        this.linear = false;
+        this.system = false;
+    }
   }
 }
 </script>
@@ -131,7 +102,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.menu{
+.menu{ /* styles the menu to be a box in the top left corner */
         position: absolute;
         Top: 20 px;
         left: 20 px;
