@@ -107,11 +107,10 @@ export default {
         Top: 20 px;
         left: 20 px;
         border: 1px solid black;
-        height: 30%;
+        height: 25%;
         width: 20%;
         text-align: left;
         padding:10px;
-        z-index: -1;
     }
     .checkbox{
         padding: 10px;
