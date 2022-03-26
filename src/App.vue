@@ -2,16 +2,16 @@
   <div id="app">
     
     <div class='menu'> <!-- This creates the menu. It contains the checkboxes to choose which type of problem to make. Each label and input is a checkbox-->
-        <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox'>
+        <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox' v-on:change="setFactoring">
         <label for="factoring">Factoring Problem</label>
         <br>
-        <input type="radio" id="trig" value="Trig" v-model="picked" class='checkbox'>
+        <input type="radio" id="trig" value="Trig" v-model="picked" class='checkbox' v-on:change="setTrig">
         <label for="trig">Trig Problem</label>
         <br>
-        <input type="radio" id="linear" value="Linear" v-model="picked" class='checkbox'>
+        <input type="radio" id="linear" value="Linear" v-model="picked" class='checkbox' v-on:change="setLinear">
         <label for="linear">Linear Equation Problem</label>
         <br>
-        <input type="radio" id="system" value="System" v-model="picked" class='checkbox'>
+        <input type="radio" id="system" value="System" v-model="picked" class='checkbox' v-on:change="setSystem">
         <label for="system">System of Equations Problem</label>
         <br>
         <br>
@@ -24,9 +24,6 @@
     <LinearEquationProblem v-show="linear" />
     <SystemProblem v-show="system" />
 
-  <div>
-    {{this.showProblem()}}
-  </div>
 
   </div>
 </template>
@@ -55,15 +52,7 @@ export default {
     }
   },
   mounted() { // Checks the localstorage to see what the user has selected in the past for the checkboxes and updates the menu with the correct selection.
-    if (localStorage.factoring) {
-      this.factoring = localStorage.factoring;
-    } else if (localStorage.trig) {
-      this.trig = localStorage.trig;
-    } else if (localStorage.linear) {
-      this.linear = localStorage.linear;
-    } else if (localStorage.system) {
-      this.system = localStorage.system;
-    }
+    this.factoring = true;
   },
   methods: {
     showProblem() { // This sets all the problem types in the local storage to false so a new choice can be made
@@ -88,6 +77,22 @@ export default {
         this.trig = false;
         this.linear = false;
         this.system = false;
+    },
+    setFactoring() {
+      this.falsifyEverything()
+      this.factoring = true;
+    },
+    setTrig() {
+      this.falsifyEverything()
+      this.trig = true
+    },
+    setLinear() {
+      this.falsifyEverything()
+      this.linear = true
+    },
+    setSystem() {
+      this.falsifyEverything()
+      this.system = true
     }
   }
 }
