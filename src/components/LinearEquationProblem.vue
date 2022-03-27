@@ -147,7 +147,8 @@ export default {
             this.numHint = 1;
             this.displayAllHints(false);
             this.isDisabled = false;
-            this.sol = solution.toAnswerForm();           
+            this.sol = solution.toAnswerForm();
+            this.uinput = null;           
         },
         //check if the user's input matches the answer and display the screen based on whether they're corrrect or not
         submitMethod() {

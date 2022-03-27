@@ -184,7 +184,7 @@ export default {
             this.solX = solutionX.toAnswerForm();
             this.solY = solutionY.toAnswerForm();
             this.uinputX = null;
-            this.uniputY = null;
+            this.uinputY = null;
             this.correct = false;
             this.incorrect = false;
             this.displayHintButton = true;
