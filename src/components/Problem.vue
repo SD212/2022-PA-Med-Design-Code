@@ -25,7 +25,7 @@
     <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true"/>
     
     <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true"/>
-
+            
     </div>
 </template>
 
@@ -69,7 +69,16 @@ export default {
     },
     components: {
         Hint,
-        'vue-mathjax': VueMathjax
+        'vue-mathjax': VueMathjax,
+    },
+
+    mounted() {
+        this.$newTick(() => {
+            window.addEventListener('resize', this.onResize);
+        })
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.onResize);
     },
     methods: {
         //generates the problem
@@ -219,11 +228,13 @@ export default {
     margin:20px;
     text-emphasis-color: white;
     border-radius: 10px;
+    z-index: 950;
 }
 /*problem button becomes brighter when cursor hovers over it */
 .problem-button:hover {
     background-color: rgb(149, 233, 141);
     cursor: pointer;
+    z-index: 950;
 }
 /*green banner saying "Correct!" across the screen */
 .correct-banner {
@@ -231,6 +242,8 @@ export default {
     padding: 10px;
     border-radius: 10px;
     border: 5px solid black;
+    animation: correct-banner-animation 1s; 
+    z-index: 950;
     animation: correct-banner-animation 0.5s; 
 }
 /*red banner saying "Incorrect" across the screen */
@@ -239,6 +252,8 @@ export default {
     padding: 10px;
     border-radius: 10px;
     border: 5px solid black;
+    animation: correct-banner-animation 1s;
+    z-index: 950;
     animation: correct-banner-animation 0.5s;
 }
 .partially-correct-banner {
@@ -257,11 +272,13 @@ export default {
 .formula-style {
     font:bold;
     font-size: 12px;
+    z-index: 950;
 }
 .submit-block {
     margin: 10px, 10px;
     border-radius: 30px;
     padding: 10px;
+    z-index: 950;
 }
 /*the display hint button is yellow in the center of the screen */
 .display-hint-button {
@@ -271,11 +288,12 @@ export default {
     margin:20px;
     text-emphasis-color: white;
     border-radius: 10px;
+    z-index: 950;
 }
 /*display hint button gets brighter when hovered over by cursor*/
 .display-hint-button:hover {
     background-color: rgb(235, 245, 102);
     cursor: pointer;
+    z-index: 950;
 }
-
 </style>

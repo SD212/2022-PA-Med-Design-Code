@@ -3,8 +3,8 @@
     <div class="hint-description">
       <br>
       <br>
-      <vue-mathjax v-if="text" :formula="description"></vue-mathjax> <!--if the hint is text, display description-->
-      <img v-if="image" :src="path"> <!--if the hint is text, display image at path "path"-->
+      <vue-mathjax v-if="text" :formula="description" style="z-index: 950;"></vue-mathjax>
+      <img v-if="image" :src="path">
     </div>
   </div>
 </template>
@@ -35,17 +35,27 @@ export default {
 </script>
 
 <style scoped>
-/*image displays with a height of 550px */
+.hint-board {
+  color: blue;
+  text-align: left;
+  display: inline-block;
+  
+  width: 100%;
+  z-index: 950;
+}
+
 img {
   display: block;
   margin-left: auto;
   margin-right: auto;
   height: 550px;
+  z-index: 950;
 }
 /*hints are in center with black text */
 .hint-description {
   display: inline;
   text-align: center;
   color: black;
+  z-index: 950;
 }
 </style>
