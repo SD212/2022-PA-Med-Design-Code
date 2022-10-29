@@ -14,6 +14,9 @@
         <input type="radio" id="system" value="System" v-model="picked" class='checkbox' v-on:change="setSystem">
         <label for="system">System of Equations Problem</label>
         <br>
+        <input type="radio" id="whiteboard" value="Whiteboard" v-model="picked" class='checkbox'>
+        <label for="system">Whiteboard</label>
+        <br>
         <br>
         <span>Picked: {{ getPicked() }}</span>
     </div> 
@@ -23,7 +26,11 @@
     <TrigProblem v-show="trig" />
     <LinearEquationProblem v-show="linear" />
     <SystemProblem v-show="system" />
+    <Whiteboard v-show="whiteboard"/>
 
+    <div>
+    {{this.showProblem()}}
+  </div>
 
   </div>
 </template>
@@ -33,6 +40,7 @@ import Problem from './components/Problem.vue'
 import TrigProblem from './components/TrigProblem.vue'
 import LinearEquationProblem from './components/LinearEquationProblem.vue'
 import SystemProblem from './components/SystemProblem.vue'
+import Whiteboard from './components/Whiteboard.vue'
 
 export default {
   name: 'App',
@@ -40,7 +48,8 @@ export default {
     Problem,
     TrigProblem,
     LinearEquationProblem,
-    SystemProblem
+    SystemProblem,
+    Whiteboard
   },
   data() {
     return { // retuns the option selected for the checkboxes. Localstorage is used to store these preferences.
@@ -48,11 +57,22 @@ export default {
       trig: localStorage.getItem("trig") == "true",
       linear: localStorage.getItem("linear") == "linear",
       system: localStorage.getItem("system") == "system",
+      whiteboard: localStorage.getItem("whiteboard") == "whiteboard",
       picked: "Factoring"
     }
   },
-  mounted() { // Checks the localstorage to see what the user has selected in the past for the checkboxes and updates the menu with the correct selection.
-    this.factoring = true;
+  mounted() {
+    if (localStorage.factoring) {
+      this.factoring = localStorage.factoring
+    } else if (localStorage.trig) {
+      this.trig = localStorage.trig
+    } else if (localStorage.linear) {
+      this.linear = localStorage.linear
+    } else if (localStorage.system) {
+      this.system = localStorage.system
+    } else if (localStorage.whiteboard) {
+      this.system = localStorage.whiteboard
+    }
   },
   methods: {
     showProblem() { // This sets all the problem types in the local storage to false so a new choice can be made
@@ -65,19 +85,15 @@ export default {
       } else if (localStorage.problemType == "Linear") {
         this.linear = true;
       } else if (localStorage.problemType == "System") {
-        this.system = true;
+        this.system = true
+      } else if (localStorage.problemType == "Whiteboard") {
+        this.whiteboard = true
       }
     },
     getPicked() { // it returns the slelected problem type
         localStorage.problemType = this.picked;
         return this.picked;
         },
-    falsifyEverything() { // Makes all the variables false so a new choice can be selected.
-        this.factoring = false;
-        this.trig = false;
-        this.linear = false;
-        this.system = false;
-    },
     setFactoring() {
       this.falsifyEverything()
       this.factoring = true;
@@ -86,13 +102,12 @@ export default {
       this.falsifyEverything()
       this.trig = true
     },
-    setLinear() {
-      this.falsifyEverything()
-      this.linear = true
-    },
-    setSystem() {
-      this.falsifyEverything()
-      this.system = true
+    falsifyEverything() {
+      this.factoring = false;
+      this.trig = false;
+      this.linear = false;
+      this.system = false;
+      this.whiteboard = false;
     }
   }
 }
@@ -100,12 +115,28 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
+.menu {
+    position: absolute;
+    Top: 20 px;
+    left: 20 px;
+    border: 1px solid black;
+    height: 50%;
+    width: 14%;
+    text-align: left;
+    padding:10px;
+    z-index: 950;
+}
+.checkbox{
+    padding: 10px;
+    margin: 10px;
+    z-index: 950;
 }
 .menu{ /* styles the menu to be a box in the top left corner */
         position: absolute;

@@ -1,30 +1,36 @@
 <template>
-    <div class="problem">
-        <button v-on:click="createProblem" class="problem-button">Generate Factoring Problem</button> <!--creates the problem button which calls createProblem when clicked on-->
-        <br>
-        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button> <!--creates the display hint button which calls displayHints when clicked-->
-        
-        <vue-mathjax :formula="formula"></vue-mathjax> <!--displays the problem-->
-        <br>
-    
-    <div v-show="displaySubmit" class="submit-block">
-        <input v-model="uinput1" placeholder="Solution 1" type="number" style=margin:10px> <!--creates inputs for the user to enter their solutions in-->
-        <input v-model="uinput2" placeholder="Solution 2" type="number" style=margin:10px>
-        <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled' >Submit</button> <!--creates the submit button which calls submitMethod when clicked-->
-        <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button> <!--creates next problem button which creates a new problem when clicked-->
-        <h1 v-show="correct" class="correct-banner">Correct!</h1> <!--displays the correct banner-->
-        <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1> <!--displays the incorrect banner-->
-    </div>
-    
-    <!--displays the hints-->
-    <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true"/>
-    
-    <Hint v-if="displayHint2" v-bind:description='hintContent2' v-bind:text="true"/>
-    
-    <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true"/>
-    
-    <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true"/>
+    <div class="probem">
 
+        <div class="rest-of-screen">
+
+            <button v-on:click="createProblem" class="problem-button">Generate Factoring Problem</button>
+            <br>
+            <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style="margin:20px; z-index: 950;" >Display Hint ({{numHint}}/4)</button>
+            
+            <vue-mathjax :formula="formula" style="z-index:950"></vue-mathjax>
+            <!-- <textarea v-model="formula" cols="30" rows="10"></textarea>
+            <vue-mathjax :formula="formula" :safe="false"></vue-mathjax> -->
+
+            <br>
+        
+            <div v-show="displaySubmit" class="submit-block">
+                <input v-model="uinput1" placeholder="Solution 1" type="number" style="margin:10px; z-index: 950;" >
+                <input v-model="uinput2" placeholder="Solution 2" type="number" style="margin:10px; z-index: 950;">
+                <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled' style="z-index: 950;">Submit</button>
+                <h1 v-show="correct" class="correct-banner">Correct!</h1>
+                <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
+                
+            </div>
+            
+            
+            <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true" />
+            
+            <Hint v-if="displayHint2" v-bind:description='hintContent2' v-bind:text="true" />
+            
+            <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true" />
+            
+            <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true" />
+        </div>
     </div>
 </template>
 
@@ -67,7 +73,16 @@ export default {
     },
     components: {
         Hint,
-        'vue-mathjax': VueMathjax
+        'vue-mathjax': VueMathjax,
+    },
+
+    mounted() {
+        this.$newTick(() => {
+            window.addEventListener('resize', this.onResize);
+        })
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.onResize);
     },
     methods: {
         //generates the problem
@@ -202,11 +217,13 @@ export default {
     margin:20px;
     text-emphasis-color: white;
     border-radius: 10px;
+    z-index: 950;
 }
 /*problem button becomes brighter when cursor hovers over it */
 .problem-button:hover {
     background-color: rgb(149, 233, 141);
     cursor: pointer;
+    z-index: 950;
 }
 /*green banner saying "Correct!" across the screen */
 .correct-banner {
@@ -214,6 +231,8 @@ export default {
     padding: 10px;
     border-radius: 10px;
     border: 5px solid black;
+    animation: correct-banner-animation 1s; 
+    z-index: 950;
     animation: correct-banner-animation 0.5s; 
 }
 /*red banner saying "Incorrect" across the screen */
@@ -222,6 +241,8 @@ export default {
     padding: 10px;
     border-radius: 10px;
     border: 5px solid black;
+    animation: correct-banner-animation 1s;
+    z-index: 950;
     animation: correct-banner-animation 0.5s;
 }
 /*to animate the display of the banner as fading into the screen*/
@@ -233,11 +254,13 @@ export default {
 .formula-style {
     font:bold;
     font-size: 12px;
+    z-index: 950;
 }
 .submit-block {
     margin: 10px, 10px;
     border-radius: 30px;
     padding: 10px;
+    z-index: 950;
 }
 /*the display hint button is yellow in the center of the screen */
 .display-hint-button {
@@ -247,11 +270,12 @@ export default {
     margin:20px;
     text-emphasis-color: white;
     border-radius: 10px;
+    z-index: 950;
 }
 /*display hint button gets brighter when hovered over by cursor*/
 .display-hint-button:hover {
     background-color: rgb(235, 245, 102);
     cursor: pointer;
+    z-index: 950;
 }
-
 </style>
