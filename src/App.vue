@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class='title-banner'>
-      Mathemagic
+      ArithMagic
     </div>
     <div class='menu'> <!-- This creates the menu. It contains the checkboxes to choose which type of problem to make. Each label and input is a checkbox-->
         <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox' v-on:change="setFactoring">
