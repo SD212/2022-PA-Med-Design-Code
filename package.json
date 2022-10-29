@@ -13,6 +13,7 @@
     "@vue/composition-api": "^1.7.0",
     "core-js": "^3.6.5",
     "html2canvas": "^1.4.1",
+    "i": "^0.3.7",
     "vue": "^2.6.11",
     "vue-mathjax": "0.0.11"
   },

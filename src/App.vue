@@ -14,6 +14,14 @@
         <input type="radio" id="system" value="System" v-model="picked" class='checkbox' v-on:change="setSystem">
         <label for="system">System of Equations Problem</label>
         <br>
+        <input type="radio" id="quadratic" value="Quadratic" v-model="picked" class='checkbox'>
+        <label for="quadratic">Quadratic Problem</label>
+        <br>
+        <input type="radio" id="powerDeriv" value="Power Rule Derivative" v-model="picked" class='checkbox'>
+        <label for="powerDeriv">Power Rule Derivative Problem</label>
+        <br>
+        <input type="radio" id="powerInt" value="Power Rule Integral" v-model="picked" class='checkbox'>
+        <label for="powerInt">Power Rule Integral Problem</label>
         <input type="radio" id="whiteboard" value="Whiteboard" v-model="picked" class='checkbox'>
         <label for="system">Whiteboard</label>
         <br>
@@ -26,6 +34,9 @@
     <TrigProblem v-show="trig" />
     <LinearEquationProblem v-show="linear" />
     <SystemProblem v-show="system" />
+    <Quadratic v-show="quadratic" />
+    <PowerRuleDeriv v-show="powerDeriv" />
+    <PowerRuleInt v-show="powerInt" />
     <Whiteboard v-show="whiteboard"/>
 
     <div>
@@ -40,6 +51,9 @@ import Problem from './components/Problem.vue'
 import TrigProblem from './components/TrigProblem.vue'
 import LinearEquationProblem from './components/LinearEquationProblem.vue'
 import SystemProblem from './components/SystemProblem.vue'
+import Quadratic from './components/Quadratic.vue'
+import PowerRuleDeriv from './components/PowerRuleDeriv.vue'
+import PowerRuleInt from './components/PowerRuleInt.vue'
 import Whiteboard from './components/Whiteboard.vue'
 
 export default {
@@ -49,6 +63,9 @@ export default {
     TrigProblem,
     LinearEquationProblem,
     SystemProblem,
+    Quadratic,
+    PowerRuleDeriv,
+    PowerRuleInt,
     Whiteboard
   },
   data() {
@@ -57,6 +74,9 @@ export default {
       trig: localStorage.getItem("trig") == "true",
       linear: localStorage.getItem("linear") == "linear",
       system: localStorage.getItem("system") == "system",
+      quadratic: localStorage.getItem("quadratic") == "quadratic",
+      powerDeriv: localStorage.getItem("powerDeriv") == "powerDeriv",
+      powerInt: localStorage.getItem("powerInt") == "powerInt",
       whiteboard: localStorage.getItem("whiteboard") == "whiteboard",
       picked: "Factoring"
     }
@@ -69,6 +89,13 @@ export default {
     } else if (localStorage.linear) {
       this.linear = localStorage.linear
     } else if (localStorage.system) {
+      this.system = localStorage.system;
+    } else if (localStorage.quadratic) {
+      this.quadratic = localStorage.quadratic;
+    } else if (localStorage.powerDeriv) {
+      this.powerDeriv = localStorage.powerDeriv;
+    } else if (localStorage.powerInt) {
+      this.powerInt = localStorage.powerInt;
       this.system = localStorage.system
     } else if (localStorage.whiteboard) {
       this.system = localStorage.whiteboard
@@ -85,6 +112,13 @@ export default {
       } else if (localStorage.problemType == "Linear") {
         this.linear = true;
       } else if (localStorage.problemType == "System") {
+        this.system = true;
+      } else if (localStorage.problemType == "Quadratic") {
+        this.quadratic = true;
+      } else if (localStorage.problemType == "Power Rule Derivative") {
+        this.powerDeriv = true;
+      } else if (localStorage.problemType == "Power Rule Integral") {
+        this.powerInt = true;
         this.system = true
       } else if (localStorage.problemType == "Whiteboard") {
         this.whiteboard = true
@@ -108,6 +142,9 @@ export default {
       this.linear = false;
       this.system = false;
       this.whiteboard = false;
+      this.quadratic = false;
+      this.powerDeriv = false;
+      this.powerInt = false;
     }
   }
 }
