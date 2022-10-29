@@ -2,16 +2,16 @@
   <div id="app">
     
     <div class='menu'> <!-- This creates the menu. It contains the checkboxes to choose which type of problem to make. Each label and input is a checkbox-->
-        <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox'>
+        <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox' v-on:change="setFactoring">
         <label for="factoring">Factoring Problem</label>
         <br>
-        <input type="radio" id="trig" value="Trig" v-model="picked" class='checkbox'>
+        <input type="radio" id="trig" value="Trig" v-model="picked" class='checkbox' v-on:change="setTrig">
         <label for="trig">Trig Problem</label>
         <br>
-        <input type="radio" id="linear" value="Linear" v-model="picked" class='checkbox'>
+        <input type="radio" id="linear" value="Linear" v-model="picked" class='checkbox' v-on:change="setLinear">
         <label for="linear">Linear Equation Problem</label>
         <br>
-        <input type="radio" id="system" value="System" v-model="picked" class='checkbox'>
+        <input type="radio" id="system" value="System" v-model="picked" class='checkbox' v-on:change="setSystem">
         <label for="system">System of Equations Problem</label>
         <br>
         <input type="radio" id="quadratic" value="Quadratic" v-model="picked" class='checkbox'>
@@ -22,6 +22,8 @@
         <br>
         <input type="radio" id="powerInt" value="Power Rule Integral" v-model="picked" class='checkbox'>
         <label for="powerInt">Power Rule Integral Problem</label>
+        <input type="radio" id="whiteboard" value="Whiteboard" v-model="picked" class='checkbox'>
+        <label for="system">Whiteboard</label>
         <br>
         <br>
         <span>Picked: {{ getPicked() }}</span>
@@ -35,8 +37,9 @@
     <Quadratic v-show="quadratic" />
     <PowerRuleDeriv v-show="powerDeriv" />
     <PowerRuleInt v-show="powerInt" />
+    <Whiteboard v-show="whiteboard"/>
 
-  <div>
+    <div>
     {{this.showProblem()}}
   </div>
 
@@ -51,6 +54,7 @@ import SystemProblem from './components/SystemProblem.vue'
 import Quadratic from './components/Quadratic.vue'
 import PowerRuleDeriv from './components/PowerRuleDeriv.vue'
 import PowerRuleInt from './components/PowerRuleInt.vue'
+import Whiteboard from './components/Whiteboard.vue'
 
 export default {
   name: 'App',
@@ -61,7 +65,8 @@ export default {
     SystemProblem,
     Quadratic,
     PowerRuleDeriv,
-    PowerRuleInt
+    PowerRuleInt,
+    Whiteboard
   },
   data() {
     return { // retuns the option selected for the checkboxes. Localstorage is used to store these preferences.
@@ -72,16 +77,17 @@ export default {
       quadratic: localStorage.getItem("quadratic") == "quadratic",
       powerDeriv: localStorage.getItem("powerDeriv") == "powerDeriv",
       powerInt: localStorage.getItem("powerInt") == "powerInt",
+      whiteboard: localStorage.getItem("whiteboard") == "whiteboard",
       picked: "Factoring"
     }
   },
-  mounted() { // Checks the localstorage to see what the user has selected in the past for the checkboxes and updates the menu with the correct selection.
+  mounted() {
     if (localStorage.factoring) {
-      this.factoring = localStorage.factoring;
+      this.factoring = localStorage.factoring
     } else if (localStorage.trig) {
-      this.trig = localStorage.trig;
+      this.trig = localStorage.trig
     } else if (localStorage.linear) {
-      this.linear = localStorage.linear;
+      this.linear = localStorage.linear
     } else if (localStorage.system) {
       this.system = localStorage.system;
     } else if (localStorage.quadratic) {
@@ -90,6 +96,9 @@ export default {
       this.powerDeriv = localStorage.powerDeriv;
     } else if (localStorage.powerInt) {
       this.powerInt = localStorage.powerInt;
+      this.system = localStorage.system
+    } else if (localStorage.whiteboard) {
+      this.system = localStorage.whiteboard
     }
   },
   methods: {
@@ -110,20 +119,32 @@ export default {
         this.powerDeriv = true;
       } else if (localStorage.problemType == "Power Rule Integral") {
         this.powerInt = true;
+        this.system = true
+      } else if (localStorage.problemType == "Whiteboard") {
+        this.whiteboard = true
       }
     },
     getPicked() { // it returns the slelected problem type
         localStorage.problemType = this.picked;
         return this.picked;
         },
-    falsifyEverything() { // Makes all the variables false so a new choice can be selected.
-        this.factoring = false;
-        this.trig = false;
-        this.linear = false;
-        this.system = false;
-        this.quadratic = false;
-        this.powerDeriv = false;
-        this.powerInt = false;
+    setFactoring() {
+      this.falsifyEverything()
+      this.factoring = true;
+    },
+    setTrig() {
+      this.falsifyEverything()
+      this.trig = true
+    },
+    falsifyEverything() {
+      this.factoring = false;
+      this.trig = false;
+      this.linear = false;
+      this.system = false;
+      this.whiteboard = false;
+      this.quadratic = false;
+      this.powerDeriv = false;
+      this.powerInt = false;
     }
   }
 }
@@ -131,19 +152,35 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
+.menu {
+    position: absolute;
+    Top: 20 px;
+    left: 20 px;
+    border: 1px solid black;
+    height: 50%;
+    width: 14%;
+    text-align: left;
+    padding:10px;
+    z-index: 950;
+}
+.checkbox{
+    padding: 10px;
+    margin: 10px;
+    z-index: 950;
 }
 .menu{ /* styles the menu to be a box in the top left corner */
         position: absolute;
         Top: 20 px;
         left: 20 px;
         border: 1px solid black;
-        height: 40%;
+        height: 25%;
         width: 20%;
         text-align: left;
         padding:10px;

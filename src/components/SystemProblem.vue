@@ -184,7 +184,7 @@ export default {
             this.solX = solutionX.toAnswerForm();
             this.solY = solutionY.toAnswerForm();
             this.uinputX = null;
-            this.uniputY = null;
+            this.uinputY = null;
             this.correct = false;
             this.incorrect = false;
             this.displayHintButton = true;
@@ -213,7 +213,6 @@ export default {
             this.displayHint2 = show;
             this.displayHint3 = show;
             this.displayHint4 = show;
-            this.numHint = 4;
       },
       //display the hints one by one as numHint increases
       displayHints() {
