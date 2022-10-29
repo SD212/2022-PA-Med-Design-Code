@@ -43,10 +43,10 @@ export default{
 <style scoped>
     .menu{
         position: absolute;
-        Top: 20 px;
+        Top: 10 px;
         left: 20 px;
         border: 1px solid black;
-        height: 30%;
+        height: 25%;
         width: 12%;
         text-align: left;
         padding:10px;

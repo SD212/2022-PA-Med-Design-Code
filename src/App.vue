@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    
+    <div class='title-banner'>
+      Mathemagic
+    </div>
     <div class='menu'> <!-- This creates the menu. It contains the checkboxes to choose which type of problem to make. Each label and input is a checkbox-->
         <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox'>
         <label for="factoring">Factoring Problem</label>
@@ -102,15 +104,47 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+@keyframes banner-animation {
+  0%    { background: rgb(5, 230, 211); }
+  50%  { background:rgb(5, 230, 121); }
+  100%    { background: rgb(5, 230, 211); }
+}
+.title-banner{
+  padding: 10px;
+  margin: 50px;
+  border: 1px solid black;
+  font-size: 40px;
+  text-decoration: underline;
+  font-weight: bold;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: rgb(5, 230, 196);
+  border-width: 5px;  
+  box-shadow:black;
+  background-image: linear-gradient(35deg, rgb(5, 230, 211), rgb(5, 230, 121));
+  border-radius: 10px;
+  animation: banner-animation 20s linear infinite;
+
+
+}
+
 .menu{ /* styles the menu to be a box in the top left corner */
         position: absolute;
-        Top: 20 px;
-        left: 20 px;
+        top: 154px;
+        left: 60px;
+        /* margin: 20px; */
         border: 1px solid black;
         height: 30%;
         width: 20%;
         text-align: left;
         padding:10px;
+        background: rgb(5, 230, 196);
+        border-radius: 10px;
+        border-width: 5px;
+        font-weight: bold;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 15px;
+        animation: banner-animation 20s linear infinite;
+
     }
     .checkbox{
         padding: 10px;
