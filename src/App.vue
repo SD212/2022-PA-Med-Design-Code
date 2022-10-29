@@ -22,9 +22,9 @@
         <br>
         <input type="radio" id="powerInt" value="Power Rule Integral" v-model="picked" class='checkbox'>
         <label for="powerInt">Power Rule Integral Problem</label>
+        <br>
         <input type="radio" id="whiteboard" value="Whiteboard" v-model="picked" class='checkbox'>
         <label for="system">Whiteboard</label>
-        <br>
         <br>
         <span>Picked: {{ getPicked() }}</span>
     </div> 
@@ -175,7 +175,7 @@ export default {
     margin: 10px;
     z-index: 950;
 }
-.menu{ /* styles the menu to be a box in the top left corner */
+.menu{
         position: absolute;
         Top: 20 px;
         left: 20 px;
