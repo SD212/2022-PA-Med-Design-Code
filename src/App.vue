@@ -28,6 +28,9 @@
     <SystemProblem v-show="system" />
     <Whiteboard v-show="whiteboard"/>
 
+    <div>
+    {{this.showProblem()}}
+  </div>
 
   </div>
 </template>
