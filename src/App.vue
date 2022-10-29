@@ -24,7 +24,7 @@
         <label for="powerInt">Power Rule Integral Problem</label>
         <br>
         <input type="radio" id="whiteboard" value="Whiteboard" v-model="picked" class='checkbox'>
-        <label for="system">Whiteboard</label>
+        <label for="whiteboard">Whiteboard</label>
         <br>
         <span>Picked: {{ getPicked() }}</span>
     </div> 
@@ -96,9 +96,8 @@ export default {
       this.powerDeriv = localStorage.powerDeriv;
     } else if (localStorage.powerInt) {
       this.powerInt = localStorage.powerInt;
-      this.system = localStorage.system
     } else if (localStorage.whiteboard) {
-      this.system = localStorage.whiteboard
+      this.whiteboard = localStorage.whiteboard
     }
   },
   methods: {
@@ -119,7 +118,6 @@ export default {
         this.powerDeriv = true;
       } else if (localStorage.problemType == "Power Rule Integral") {
         this.powerInt = true;
-        this.system = true
       } else if (localStorage.problemType == "Whiteboard") {
         this.whiteboard = true
       }
