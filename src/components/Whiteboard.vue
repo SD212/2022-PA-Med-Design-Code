@@ -2,15 +2,19 @@
 <template>
     
     <div class="whiteboard">
-        <button type="button" @click.prevent="$refs.VueCanvasDrawing.undo()" class="undo-button">
-            Undo
-        </button>
-        <button type="button" @click.prevent="$refs.VueCanvasDrawing.redo()" class="redo-button">
-            Redo    
-        </button>
-        <button type="button" @click.prevent="$refs.VueCanvasDrawing.reset()" class="reset-button">
-            Reset
-        </button>
+        <div class="whiteboard-settings">
+            <button type="button" @click.prevent="$refs.VueCanvasDrawing.undo()" class="undo-button">
+                Undo
+            </button>
+            <button type="button" @click.prevent="$refs.VueCanvasDrawing.redo()" class="redo-button">
+                Redo    
+            </button>
+            <button type="button" @click.prevent="$refs.VueCanvasDrawing.reset()" class="reset-button">
+                Reset
+            </button>
+            <label for="color-select">Color: </label>
+            <input type="color" v-model="color" class="color-select" />
+        </div>
         <div class="wb">
                 
             <vue-drawing-canvas v-show="showWhiteboard"
@@ -58,7 +62,7 @@ export default {
                 line: 5,
                 color: "#000000",
                 strokeType: "dash",
-                lineCap: "square",
+                lineCap: "round",
                 lineJoin: "miter",
                 backgroundColor: "#FFFFFF",
                 backgroundImage: null,
@@ -130,28 +134,40 @@ export default {
 <style scoped>
 .wb {
     /* position: absolute; */
-    z-index: 2;
+    z-index: 1;
     top: 0px;
     left: 0px;
     height: 200px;
 }
 
-.whiteboard button {
+.whiteboard-settings button {
     position: relative;
     background-color: rgb(170, 228, 165);
     padding:10px;
     margin:10px;
     text-emphasis-color: white;
     border-radius: 10px;
-    z-index: 1;
+    z-index: 2;
     cursor: pointer;
 }
 
-.whiteboard .reset-button {
+.whiteboard-settings .reset-button {
+    position: relative;
+    background-color: rgb(170, 228, 165);
+    padding:10px;
+    margin:10px;
+    text-emphasis-color: white;
+    border-radius: 10px;
+    z-index: 2;
+    cursor: pointer;
     background-color: rgb(255, 91, 76);
 }
 
-.whiteboard .redo-button {
+.color-select {
+    z-index: 2;
+}
+
+.whiteboard-settings .redo-button {
     background-color: rgb(235, 245, 102);
 }
 </style>
