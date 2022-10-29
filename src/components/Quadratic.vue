@@ -6,7 +6,7 @@
         
         <vue-mathjax :formula="formula"></vue-mathjax> <!--displays the problem-->
         <br>
-        <p>Find the real zeros to the nearest thousandths. If there are no real zeroes, leave the fields blank.</p> <!--explains what form to write answers in-->
+        <p>Find the real zeros to the nearest thousandths. Might require a calculator. If there are no real zeroes, leave the fields blank.</p> <!--explains what form to write answers in-->
     
     <div v-show="displaySubmit" class="submit-block">
         <input v-model="uinput1" placeholder="Solution 1" type="number" style=margin:10px> <!--creates inputs for the user to enter their solutions in-->
@@ -15,6 +15,7 @@
         <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button> <!--creates next problem button which creates a new problem when clicked-->
         <h1 v-show="correct" class="correct-banner">Correct!</h1> <!--displays the correct banner-->
         <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1> <!--displays the incorrect banner-->
+        <h1 v-show="partiallyCorrect" class="partially-correct-banner">Partially Correct</h1>
     </div>
     
     <!--displays the hints-->
@@ -48,6 +49,7 @@ export default {
             uinput2: null,
             correct: false,
             incorrect: false,
+            partiallyCorrect: false,
             sol1: 0,
             sol2: 0,
             displayHint1: false,
@@ -211,6 +213,7 @@ export default {
             this.formula = this.problem;
             this.correct = false;
             this.incorrect = false;
+            this.partiallyCorrect = false;
             this.displayHintButton = true;
             this.displaySubmit = true;
             this.numHint = 1;
@@ -222,15 +225,24 @@ export default {
             if (this.uinput1 == this.sol1 && this.uinput2 == this.sol2) {
                 this.correct = true;
                 this.incorrect = false;
+                this.partiallyCorrect = false;
                 this.isDisabled = true;
                 this.numHint = 4;
             } else if (this.uinput1 == this.sol2 && this.uinput2 == this.sol1) {
                 this.correct = true;
                 this.incorrect = false;
+                this.partiallyCorrect = false;
                 this.isDisabled = true;
                 this.numHint = 4;
-            } else {
+            } else if (this.uinput1 == this.sol2 || this.uinput2 == this.sol1){
+                this.incorrect = false;
+                this.partiallyCorrect = true;
+            } else if (this.uinput1 == this.sol1 || this.uinput2 == this.sol2){
+                this.incorrect = false;
+                this.partiallyCorrect = true;
+            }else {
                 this.incorrect = true;
+                this.partiallyCorrect = false; 
             }
             
             if (this.correct) {
@@ -297,6 +309,13 @@ export default {
 /*red banner saying "Incorrect" across the screen */
 .incorrect-banner {
     background-color: rgb(216, 43, 0);
+    padding: 10px;
+    border-radius: 10px;
+    border: 5px solid black;
+    animation: correct-banner-animation 0.5s;
+}
+.partially-correct-banner {
+    background-color: rgb(229, 235, 52);
     padding: 10px;
     border-radius: 10px;
     border: 5px solid black;
