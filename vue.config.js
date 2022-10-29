@@ -1,3 +1,6 @@
 module.exports = {
-    publicPath: '/2022-PA-Med-Design/'
+    publicPath: process.env.NODE_ENV === 'production'
+        ? '/2022-PA-Med-Design/'
+        : '/'
 }
+  

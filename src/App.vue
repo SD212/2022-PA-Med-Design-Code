@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     
-    <div class='menu'>
-        <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox'>
+    <div class='menu'> <!-- This creates the menu. It contains the checkboxes to choose which type of problem to make. Each label and input is a checkbox-->
+        <input type="radio" id="factoring" value="Factoring" v-model="picked" class='checkbox' v-on:change="setFactoring">
         <label for="factoring">Factoring Problem</label>
         <br>
-        <input type="radio" id="trig" value="Trig" v-model="picked" class='checkbox'>
+        <input type="radio" id="trig" value="Trig" v-model="picked" class='checkbox' v-on:change="setTrig">
         <label for="trig">Trig Problem</label>
         <br>
-        <input type="radio" id="linear" value="Linear" v-model="picked" class='checkbox'>
-        <label for="linear">Linear Problem</label>
+        <input type="radio" id="linear" value="Linear" v-model="picked" class='checkbox' v-on:change="setLinear">
+        <label for="linear">Linear Equation Problem</label>
         <br>
-        <input type="radio" id="system" value="System" v-model="picked" class='checkbox'>
+        <input type="radio" id="system" value="System" v-model="picked" class='checkbox' v-on:change="setSystem">
         <label for="system">System of Equations Problem</label>
         <br>
         <input type="radio" id="whiteboard" value="Whiteboard" v-model="picked" class='checkbox'>
@@ -21,41 +21,35 @@
         <span>Picked: {{ getPicked() }}</span>
     </div> 
 
-    <!--<Menu />-->
+    <!-- Displays all the problems -->
     <Problem v-show="factoring" />
     <TrigProblem v-show="trig" />
     <LinearEquationProblem v-show="linear" />
     <SystemProblem v-show="system" />
     <Whiteboard v-show="whiteboard"/>
 
-  <div>
-    {{this.showProblem()}}
-  </div>
 
   </div>
 </template>
 
 <script>
 import Problem from './components/Problem.vue'
-//import Menu from './components/Menu.vue'
 import TrigProblem from './components/TrigProblem.vue'
 import LinearEquationProblem from './components/LinearEquationProblem.vue'
 import SystemProblem from './components/SystemProblem.vue'
 import Whiteboard from './components/Whiteboard.vue'
 
-
 export default {
   name: 'App',
   components: {
     Problem,
-    //Menu,
     TrigProblem,
     LinearEquationProblem,
     SystemProblem,
     Whiteboard
   },
   data() {
-    return {
+    return { // retuns the option selected for the checkboxes. Localstorage is used to store these preferences.
       factoring: localStorage.getItem("factoring") == "true",
       trig: localStorage.getItem("trig") == "true",
       linear: localStorage.getItem("linear") == "linear",
@@ -78,59 +72,40 @@ export default {
     }
   },
   methods: {
-    showProblem() {
-      console.log("showProblem is called")
-      this.falsifyEverything()
+    showProblem() { // This sets all the problem types in the local storage to false so a new choice can be made
+      this.falsifyEverything();
 
       if (localStorage.problemType == "Trig") {
-        this.trig = true
+        this.trig = true;
       } else if (localStorage.problemType == "Factoring") {
-        this.factoring = true
+        this.factoring = true;
       } else if (localStorage.problemType == "Linear") {
-        this.linear = true
+        this.linear = true;
       } else if (localStorage.problemType == "System") {
         this.system = true
       } else if (localStorage.problemType == "Whiteboard") {
         this.whiteboard = true
       }
     },
-    getFactoring() {
-      this.showProblem()
-      return this.factoring
-    },
-    getTrig() {
-      this.showProblem()
-      return this.trig
-    },
-    getLinear() {
-      this.showProblem()
-      return this.linear
-    },
-    getPicked() {
-            /*if (isLocalStorage() ) {
-               localStorage.setItem('problemType', this.picked)
-            }*/
-
-            localStorage.trig = false
-            localStorage.factoring = false
-
-            if (this.picked == "Trig") {
-                localStorage.trig = true
-            } else {
-                localStorage.factoring = true
-            }
-
-            localStorage.problemType = this.picked
-
-            return this.picked
+    getPicked() { // it returns the slelected problem type
+        localStorage.problemType = this.picked;
+        return this.picked;
         },
-        falsifyEverything() {
-          this.factoring = false;
-          this.trig = false;
-          this.linear = false;
-          this.system = false;
-          this.whiteboard = false;
-        }
+    setFactoring() {
+      this.falsifyEverything()
+      this.factoring = true;
+    },
+    setTrig() {
+      this.falsifyEverything()
+      this.trig = true
+    },
+    falsifyEverything() {
+      this.factoring = false;
+      this.trig = false;
+      this.linear = false;
+      this.system = false;
+      this.whiteboard = false;
+    }
   }
 }
 </script>
@@ -160,4 +135,18 @@ export default {
     margin: 10px;
     z-index: 950;
 }
+.menu{ /* styles the menu to be a box in the top left corner */
+        position: absolute;
+        Top: 20 px;
+        left: 20 px;
+        border: 1px solid black;
+        height: 25%;
+        width: 20%;
+        text-align: left;
+        padding:10px;
+    }
+    .checkbox{
+        padding: 10px;
+        margin: 10px;
+    }
 </style>
