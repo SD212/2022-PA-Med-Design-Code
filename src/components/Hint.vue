@@ -6,7 +6,7 @@
 
       <br>
       <br>
-      <vue-mathjax v-if="text" :formula="description"></vue-mathjax>
+      <vue-mathjax v-if="text" :formula="description" style="z-index: 950;"></vue-mathjax>
       <img v-if="image" :src="path">
     </div>
   </div>
@@ -48,6 +48,7 @@ export default {
   display: inline-block;
   
   width: 100%;
+  z-index: 950;
 }
 
 img {
@@ -55,11 +56,13 @@ img {
   margin-left: auto;
   margin-right: auto;
   height: 550px;
+  z-index: 950;
 }
 
 .hint-description {
   display: inline;
   text-align: center;
   color: black;
+  z-index: 950;
 }
 </style>

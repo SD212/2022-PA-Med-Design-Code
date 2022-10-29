@@ -14,6 +14,9 @@
         <input type="radio" id="system" value="System" v-model="picked" class='checkbox'>
         <label for="system">System of Equations Problem</label>
         <br>
+        <input type="radio" id="whiteboard" value="Whiteboard" v-model="picked" class='checkbox'>
+        <label for="system">Whiteboard</label>
+        <br>
         <br>
         <span>Picked: {{ getPicked() }}</span>
     </div> 
@@ -23,6 +26,7 @@
     <TrigProblem v-show="trig" />
     <LinearEquationProblem v-show="linear" />
     <SystemProblem v-show="system" />
+    <Whiteboard v-show="whiteboard"/>
 
   <div>
     {{this.showProblem()}}
@@ -37,6 +41,7 @@ import Problem from './components/Problem.vue'
 import TrigProblem from './components/TrigProblem.vue'
 import LinearEquationProblem from './components/LinearEquationProblem.vue'
 import SystemProblem from './components/SystemProblem.vue'
+import Whiteboard from './components/Whiteboard.vue'
 
 
 export default {
@@ -46,7 +51,8 @@ export default {
     //Menu,
     TrigProblem,
     LinearEquationProblem,
-    SystemProblem
+    SystemProblem,
+    Whiteboard
   },
   data() {
     return {
@@ -54,6 +60,7 @@ export default {
       trig: localStorage.getItem("trig") == "true",
       linear: localStorage.getItem("linear") == "linear",
       system: localStorage.getItem("system") == "system",
+      whiteboard: localStorage.getItem("whiteboard") == "whiteboard",
       picked: "Factoring"
     }
   },
@@ -66,6 +73,8 @@ export default {
       this.linear = localStorage.linear
     } else if (localStorage.system) {
       this.system = localStorage.system
+    } else if (localStorage.whiteboard) {
+      this.system = localStorage.whiteboard
     }
   },
   methods: {
@@ -81,6 +90,8 @@ export default {
         this.linear = true
       } else if (localStorage.problemType == "System") {
         this.system = true
+      } else if (localStorage.problemType == "Whiteboard") {
+        this.whiteboard = true
       }
     },
     getFactoring() {
@@ -118,6 +129,7 @@ export default {
           this.trig = false;
           this.linear = false;
           this.system = false;
+          this.whiteboard = false;
         }
   }
 }
@@ -125,25 +137,27 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
+.menu {
+    position: absolute;
+    Top: 20 px;
+    left: 20 px;
+    border: 1px solid black;
+    height: 50%;
+    width: 14%;
+    text-align: left;
+    padding:10px;
+    z-index: 950;
 }
-.menu{
-        position: absolute;
-        Top: 20 px;
-        left: 20 px;
-        border: 1px solid black;
-        height: 50%;
-        width: 14%;
-        text-align: left;
-        padding:10px;
-    }
-    .checkbox{
-        padding: 10px;
-        margin: 10px;
-    }
+.checkbox{
+    padding: 10px;
+    margin: 10px;
+    z-index: 950;
+}
 </style>
