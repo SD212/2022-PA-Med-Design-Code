@@ -14,6 +14,7 @@
         <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button> <!--creates next problem button which creates a new problem when clicked-->
         <h1 v-show="correct" class="correct-banner">Correct!</h1> <!--displays the correct banner-->
         <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1> <!--displays the incorrect banner-->
+        <h1 v-show="partiallyCorrect" class="partially-correct-banner">Partially Correct</h1>
     </div>
     
     <!--displays the hints-->
@@ -48,6 +49,7 @@ export default {
                 uinputY: null,
                 correct: false,
                 incorrect: false,
+                partiallyCorrect: false,
                 solX: 0,
                 solY: 0,
                 displayHint1: false,
@@ -187,6 +189,7 @@ export default {
             this.uinputY = null;
             this.correct = false;
             this.incorrect = false;
+            this.partiallyCorrect = false;
             this.displayHintButton = true;
             this.displaySubmit = true;
             this.numHint = 1;
@@ -198,9 +201,14 @@ export default {
             if (this.uinputX == this.solX && this.uinputY == this.solY) {
                 this.correct = true;
                 this.incorrect=false;
+                this.partiallyCorrect=false;
                 this.isDisabled = true;
+            }else if(this.uinputX == this.solX || this.uinputY == this.solY){
+                this.partiallyCorrect = true;
+                this.incorrect=false;
             } else {
                 this.incorrect=true;
+                this.partiallyCorrect=false;
             }
             
             if (this.correct) {
@@ -268,6 +276,13 @@ export default {
     border-radius: 10px;
     border: 5px solid black;
     animation: correct-banner-animation 1s;
+}
+.partially-correct-banner {
+    background-color: rgb(229, 235, 52);
+    padding: 10px;
+    border-radius: 10px;
+    border: 5px solid black;
+    animation: correct-banner-animation 0.5s;
 }
 /*to animate the display of the banner as fading into the screen*/
 @keyframes correct-banner-animation {

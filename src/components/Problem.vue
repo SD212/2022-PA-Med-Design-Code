@@ -1,36 +1,31 @@
 <template>
-    <div class="probem">
-
-        <div class="rest-of-screen">
-
-            <button v-on:click="createProblem" class="problem-button">Generate Factoring Problem</button>
-            <br>
-            <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style="margin:20px; z-index: 950;" >Display Hint ({{numHint}}/4)</button>
-            
-            <vue-mathjax :formula="formula" style="z-index:950"></vue-mathjax>
-            <!-- <textarea v-model="formula" cols="30" rows="10"></textarea>
-            <vue-mathjax :formula="formula" :safe="false"></vue-mathjax> -->
-
-            <br>
+    <div class="problem">
+        <button v-on:click="createProblem" class="problem-button">Generate Factoring Problem</button> <!--creates the problem button which calls createProblem when clicked on-->
+        <br>
+        <button v-on:click="displayHints" v-if="displayHintButton" class="display-hint-button" style=margin:20px >Display Hint ({{numHint}}/4)</button> <!--creates the display hint button which calls displayHints when clicked-->
         
-            <div v-show="displaySubmit" class="submit-block">
-                <input v-model="uinput1" placeholder="Solution 1" type="number" style="margin:10px; z-index: 950;" >
-                <input v-model="uinput2" placeholder="Solution 2" type="number" style="margin:10px; z-index: 950;">
-                <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled' style="z-index: 950;">Submit</button>
-                <h1 v-show="correct" class="correct-banner">Correct!</h1>
-                <h1 v-show="incorrect" class="incorrect-banner">incorrect</h1>
-                
-            </div>
+        <vue-mathjax :formula="formula"></vue-mathjax> <!--displays the problem-->
+        <br>
+    
+    <div v-show="displaySubmit" class="submit-block">
+        <input v-model="uinput1" placeholder="Solution 1" type="number" style=margin:10px> <!--creates inputs for the user to enter their solutions in-->
+        <input v-model="uinput2" placeholder="Solution 2" type="number" style=margin:10px>
+        <button class="submit-button" v-on:click="submitMethod" :disabled='isDisabled' >Submit</button> <!--creates the submit button which calls submitMethod when clicked-->
+        <button class="submit-button" v-on:click="createProblem" v-show='isDisabled'>Next Problem</button> <!--creates next problem button which creates a new problem when clicked-->
+        <h1 v-show="correct" class="correct-banner">Correct!</h1> <!--displays the correct banner-->
+        <h1 v-show="incorrect" class="incorrect-banner">Incorrect</h1> <!--displays the incorrect banner-->
+        <h1 v-show="partiallyCorrect" class="partially-correct-banner">Partially Correct</h1> <!--displays the incorrect banner-->
+    </div>
+    
+    <!--displays the hints-->
+    <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true"/>
+    
+    <Hint v-if="displayHint2" v-bind:description='hintContent2' v-bind:text="true"/>
+    
+    <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true"/>
+    
+    <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true"/>
             
-            
-            <Hint v-if="displayHint1" v-bind:description='hintContent1' v-bind:text="true" />
-            
-            <Hint v-if="displayHint2" v-bind:description='hintContent2' v-bind:text="true" />
-            
-            <Hint v-if="displayHint3" v-bind:description='hintContent3' v-bind:text="true" />
-            
-            <Hint v-if="displayHint4" v-bind:description='hintContent4' v-bind:text="true" />
-        </div>
     </div>
 </template>
 
@@ -53,6 +48,7 @@ export default {
                 uinput2: null,
                 correct: false,
                 incorrect: false,
+                partiallyCorrect: false,
                 bVal: 0,
                 cVal: 0,
                 sol1: 0,
@@ -101,6 +97,7 @@ export default {
             this.formula = this.problem;
             this.correct = false;
             this.incorrect = false;
+            this.partiallyCorrect=false;
             this.displayHintButton = true;
             this.displaySubmit = true;
             this.numHint = 1;
@@ -138,14 +135,28 @@ export default {
             if (this.uinput1 == this.sol1 && this.uinput2 == this.sol2) {
                 this.correct = true;
                 this.incorrect = false;
+                this.partiallyCorrect = false;
                 this.isDisabled = true;
                 this.numHint = 4;
             } else if (this.uinput1 == this.sol2 && this.uinput2 == this.sol1) {
                 this.correct = true;
                 this.incorrect = false;
+                this.partiallyCorrect = false;
                 this.isDisabled = true;
                 this.numHint = 4;
-            } else {
+            } else if (this.uinput1 == this.sol2 || this.uinput2 == this.sol1){
+                this.correct = false;
+                this.incorrect = false;
+                this.partiallyCorrect = true;
+                this.isDisabled = false;
+                this.numHint = 4;
+            } else if (this.uinput1 == this.sol1 || this.uinput2 == this.sol2){
+                this.correct = false;
+                this.incorrect = false;
+                this.partiallyCorrect = true;
+                this.isDisabled = false;
+                this.numHint = 4;
+            }else {
                 this.incorrect = true;
             }
             
@@ -243,6 +254,13 @@ export default {
     border: 5px solid black;
     animation: correct-banner-animation 1s;
     z-index: 950;
+    animation: correct-banner-animation 0.5s;
+}
+.partially-correct-banner {
+    background-color: rgb(229, 235, 52);
+    padding: 10px;
+    border-radius: 10px;
+    border: 5px solid black;
     animation: correct-banner-animation 0.5s;
 }
 /*to animate the display of the banner as fading into the screen*/
